@@ -5,6 +5,16 @@
   "description": "Front end website for IR project, CS 4320, Spring 17, Utah State University.",
   "keywords": [],
   "dependencies": {
+    "@angular/common": "^2.4.10",
+    "@angular/compiler": "^2.4.10",
+    "@angular/core": "^2.4.10",
+    "@angular/forms": "^2.4.10",
+    "@angular/http": "^2.4.10",
+    "@angular/platform-browser": "^2.4.10",
+    "@angular/platform-browser-dynamic": "^2.4.10",
+    "@angular/router": "^3.4.10",
+    "@angular/upgrade": "^2.4.10",
+    "core-js": "^2.4.1",
     "ejs": "2.3.4",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
@@ -20,8 +30,11 @@
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.0",
     "rc": "1.0.1",
+    "rxjs": "^5.2.0",
     "sails": "~0.12.11",
-    "sails-disk": "~0.10.9"
+    "sails-disk": "~0.10.9",
+    "systemjs": "^0.20.10",
+    "zone.js": "0.6.25"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -33,5 +46,11 @@
     "url": "git://github.com/craigblackburn/ratemybill-site.git"
   },
   "author": "craigblackburn",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "@types/core-js": "^0.9.37",
+    "grunt": "^1.0.1",
+    "grunt-ts": "^6.0.0-beta.15",
+    "typescript": "^2.2.1"
+  }
 }
