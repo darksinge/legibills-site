@@ -30,7 +30,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/craigblackburn/legibills.git"
+    "url": "git://github.com/craigblackburn/ratemybill-site.git"
   },
   "author": "craigblackburn",
   "license": ""
