@@ -41,7 +41,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js; webpack --config webpack.config.js --watch"
   },
   "main": "app.js",
   "repository": {
@@ -58,6 +58,7 @@
     "grunt": "^1.0.1",
     "grunt-react": "^0.12.3",
     "grunt-ts": "^6.0.0-beta.15",
+    "grunt-webpack": "^2.0.1",
     "jsx-loader": "^0.13.2",
     "react-devtools": "^2.0.12",
     "redux-devtools": "^3.3.2",
