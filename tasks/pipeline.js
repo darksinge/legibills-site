@@ -30,11 +30,7 @@ var jsFilesToInject = [
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',
-  'node_modules/core-js/client/shim.min.js',
-  'node_modules/zone.js/dist/zone.min.js',
-  'node_modules/reflect-metadata/Reflect.js',
-  'node_modules/systemjs/dist/system.js',
-  '/app/angular.config.js',
+  'app/main.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

@@ -11,6 +11,8 @@
  * http://sailsjs.org/#!/documentation/concepts/Views
  */
 
+var cons = require('consolidate');
+
 module.exports.views = {
 
   /****************************************************************************
@@ -31,10 +33,17 @@ module.exports.views = {
   ****************************************************************************/
 
   engine: 'ejs',
-  locals: {
-    open: '<?',
-    close: '?>'
-  },
+
+  // engine: {
+  //   fn: require('express-react-views').createEngine(),
+  //   ext: 'jsx'
+  // },
+
+  // engine: 'ejs',
+  // locals: {
+  //   open: '<?',
+  //   close: '?>'
+  // },
 
   /****************************************************************************
   *                                                                           *
