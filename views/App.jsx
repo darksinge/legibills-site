@@ -1,14 +1,16 @@
 
 var React = require('react');
 
-var NavBar = require('/home/craig/Documents/sites/ratemybill-site/views/NavBar.jsx');
+var AppRouter = require('/home/craig/Documents/sites/ratemybill-site/views/AppRouter.jsx');
 
 var App = React.createClass({
   render: function() {
     return (
-    <div className={"container"}>
-      <NavBar />
-      {this.props.children}
+    <div>
+      <AppRouter />
+      <div className="container">
+          {this.props.children}
+      </div>
     </div>
     );
   }

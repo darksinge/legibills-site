@@ -11,14 +11,12 @@ module.exports = function(grunt) {
             output: { path:'./.tmp/public/app', filename: 'bundle.js'},
             module: {
                 loaders: [
-                {
-                    test: /\.jsx?$/,
-                    exclude: /node_modules/,
-                    loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015', 'react']
+                    {
+                        loader: 'babel-loader',
+                        test: /\.jsx?$/,
+                        exclude: /node_modules/,
+                        options: {"presets": ['es2015', 'react']}
                     }
-                }
                 ]
             },
             watch: true

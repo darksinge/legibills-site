@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  '*': 'homepage'
+  // '/about': 'homepage',
 
   /***************************************************************************
   *                                                                          *

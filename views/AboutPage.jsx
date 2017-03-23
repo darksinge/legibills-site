@@ -4,7 +4,7 @@ var AboutPage = React.createClass({
     render: function() {
         return (
             <div>
-                <h1>This is all about me!</h1>
+                <p className={"flow-text"}>This website is the face of a project being developed by students at Utah State University.</p>
             </div>
         );
     }
