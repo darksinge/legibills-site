@@ -3,18 +3,68 @@ var path = require('path');
 var React = require('react');
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
+var tmpImages = {
+    first: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQpZK55hgEWDWGK1B-jgB_omDOJDt9fDIWiSKzFtJg90xxUKVsH',
+    second: 'http://globalgenes.org/wp-content/uploads/2012/03/capitol_hill_washington_DC_lobbying.jpg',
+    third: 'https://i.imgflip.com/1idalc.jpg'
+}
+
+
 var HomePage = React.createClass({
   render: function() {
     return (
-    <div className={"container"}>
-      <div>
-        <h1>Welcome to RateMyBill!</h1>
-        <h4>Welcome to the future landing page of a really sweet project where you'll be able to discuss current (and past) legislation being reviewed by the state of Utah.</h4>
-        <p className={"flow-text"}>If you really feel the need, you can <a href="https://github.com/darksinge/ratemybill-site">view the source code of this website on github</a>.</p>
-        <p className={"flow-text"}>Additionally, the <a href="https://github.com/darksinge/IR-legislation-cs4320_sp17">source code for our data collection and algorithms</a> is also hosted on <a href="https://github.com">github</a>.</p>
+    <div>
+      <div className="row container">
+        <p className="flow-text red-text center-align">This Site Is Under Construction!</p>
+        <div className="divider"></div>
+        <div className="col l9 offset-l3">
+          <h1 className="">Welcome to RateMyBill!</h1>
+        </div>
+        <div className="col l6 offset-l3">
+            <p className="flow-text">Ratemybill.com is the demystifier of Utah legislation that allows users to discuss bills, view trends, and voice opinions.</p>
+            <Link to="/signup"><span className="waves-effect waves-light btn">Create account</span></Link>
+        </div>
       </div>
-      <div>
-        <p className="flow-text"><Link to="/foo">Click here to test a broken link</Link></p>
+      <div className="row container">
+        <div className="col s12 m12 l4">
+          <div className="card horizontal hoverable feature-card">
+            <div className="card-image">
+              <img className="" src={tmpImages.first}></img>
+            </div>
+            <div className="card-stacked">
+              <div className="card-content">
+                <span className="card-title">Feature 1</span>
+                <p className="">This is the first featured bill.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col s12 m12 l4">
+          <div className="card horizontal hoverable feature-card">
+            <div className="card-image">
+              <img src={tmpImages.second}></img>
+            </div>
+            <div className="card-stacked">
+              <div className="card-content">
+                <span className="card-title">Feature 2</span>
+                <p className="">This is the second featured bill.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col s12 m12 l4">
+          <div className="card horizontal hoverable feature-card">
+            <div className="card-image">
+              <img src={tmpImages.third}></img>
+            </div>
+            <div className="card-stacked">
+              <div className="card-content">
+                <span className="card-title">Feature 3</span>
+                <p className="">This is the third featured bill.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     );
