@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     
     grunt.config.set('webpack', {
         dev: {
-            entry: appRoot + '/assets/app/main.js',
+            entry: appRoot + '/assets/app/index.js',
             output: { path: appRoot + '/.tmp/public/app', filename: 'bundle.js'},
             module: {
                 loaders: [
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         },
 
         prod: {
-            entry: './assets/app/main.js',
+            entry: './assets/app/index.js',
             output: { path:'./.tmp/public/app', filename: 'bundle.js'},
             module: {
                 loaders: [

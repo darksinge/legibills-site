@@ -1,5 +1,5 @@
 {
-  "name": "legibills",
+  "name": "ratemybill",
   "private": true,
   "version": "0.1.0",
   "description": "Front end website for IR project, CS 4320, Spring 17, Utah State University.",
@@ -43,7 +43,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js; webpack --config webpack.config.js --watch"
+    "start": "node app.js"
   },
   "main": "app.js",
   "repository": {

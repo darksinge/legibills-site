@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-   entry: './assets/app/main.js',
+   entry: './assets/app/index.js',
    output: { path:'./.tmp/public/app', filename: 'bundle.js'},
    module: {
       loaders: [

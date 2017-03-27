@@ -6,12 +6,12 @@ import createBrowserHistory from 'history/createBrowserHistory';
 
 var history = createBrowserHistory();
 
-import HomePage from './HomePage.jsx';
-import AboutPage from './AboutPage.jsx';
-import NotFound from './NotFound.jsx';
-import LoginPage from './LoginPage.jsx';
-import Footer from './Footer.jsx';
-import SearchPage from './SearchPage.jsx';
+import HomePage from './components/HomePage.jsx';
+import AboutPage from './components/AboutPage.jsx';
+import NotFound from './components/NotFound.jsx';
+import LoginPage from './components/LoginPage.jsx';
+import Footer from './components/Footer.jsx';
+import SearchPage from './components/SearchPage.jsx';
 
 var listStyle = {
     display: 'inline',
@@ -33,7 +33,7 @@ var links = pages.map((value) => {
 
 links = <ul>{links}</ul>;
 
-var AppRouter = React.createClass({
+var App = React.createClass({
     render: function() {
         return (
             <Router history={history}>
@@ -66,4 +66,4 @@ var AppRouter = React.createClass({
 });
 
 
-module.exports = AppRouter;
+module.exports = App;
