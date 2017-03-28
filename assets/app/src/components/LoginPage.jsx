@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+var authRoute = "http://localhost:1337/auth/facebook";
+
 var LoginPage = React.createClass({
     render: () => {
         return (
@@ -23,6 +25,11 @@ var LoginPage = React.createClass({
                                 <Link to="/local/auth"><span className="waves-effect waves-light btn">Sign In</span></Link>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col s12 m3 l3 offset-l6 offset-m6">
+                        <a className="btn waves-effect waves-light" href={authRoute}>Log In With Facebook</a>
                     </div>
                 </div>
             </div>
