@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     dev: {
         files: [{
             expand: true,
-            cwd: 'assets/bower_components/materialize/sass/',
+            cwd: 'assets/styles/sass/',
             src: ['materialize.scss'],
             dest: '.tmp/public/styles/',
             ext: '.css'
