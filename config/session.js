@@ -12,6 +12,10 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.session.html
  */
 
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+
+
 module.exports.session = {
 
   /***************************************************************************
@@ -44,7 +48,11 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  adapter: 'redis',
+  store: new RedisStore({
+    host: 'localhost',
+    port: 6379
+  }),
 
   /***************************************************************************
   *                                                                          *

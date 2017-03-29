@@ -39,7 +39,8 @@ module.exports.routes = {
    * UserController routes
    * ----------------------
    */
-  'get /profile': 'UserController.profile',
+  'get /profile': 'UserController.index',
+  'get /api/profile': 'UserController.profileJSON',
 
   /**
    * ----------------------

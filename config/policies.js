@@ -36,6 +36,10 @@ module.exports.policies = {
   ***************************************************************************/
   CommentController: {
     '*': false
+  },
+
+  UserController: {
+    '*': ['sessionAuth']
   }
 	// RabbitController: {
 
