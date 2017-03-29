@@ -26,6 +26,7 @@ var HomePage = React.createClass({
         </div>
       </div>
       <div className="row container">
+      <Link to="/bill">
         <div className="col s12 m12 l4">
           <div className="card horizontal hoverable feature-card">
             <div className="card-image">
@@ -39,6 +40,7 @@ var HomePage = React.createClass({
             </div>
           </div>
         </div>
+        </Link>
         <div className="col s12 m12 l4">
           <div className="card horizontal hoverable feature-card">
             <div className="card-image">
