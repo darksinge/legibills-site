@@ -9,7 +9,8 @@ module.exports = {
     facebookCallback: (req, res) => {
         passport.authenticate('facebook', {
             failureRedirect: '/login',
-            successRedirect: '/profile'
+            successRedirect: '/profile',
+            session: false
         })(req, res);
     }
 

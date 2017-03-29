@@ -7,9 +7,21 @@
 
 module.exports = {
 	profile: (req, res) => {
-        return res.view('homepage', {
-            user: req.user.toJSON()
+        User.find().exec((err, users) => {
+            if (err) return res.negotiate(err);
+            if (!users) return res.view('homepage');
+            
+            var user;
+            if (Array.isArray(users)) {
+                user = users[0];
+            } else {
+                user = users;
+            }
+            return res.view('homepage', {
+                user: user
+            });
         });
+        
     }
 };
 

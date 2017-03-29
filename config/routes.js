@@ -46,8 +46,8 @@ module.exports.routes = {
    * AuthController routes
    * ----------------------
    */
-   'get /auth/facebook': 'AuthController.facebookAuth',
-   '/auth/facebook/callback': 'AuthController.facebookCallback',
+   'get /oauth/facebook': 'AuthController.facebookAuth',
+   '/oauth/facebook/callback': 'AuthController.facebookCallback',
    
 
 

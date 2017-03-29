@@ -23,6 +23,10 @@ module.exports = {
     lastname: 'string',
     username: 'string',
     facebookId: 'string',
+    gender: {
+      type: 'string',
+      defaultsTo: 'not provided'
+    }
   }
 };
 
