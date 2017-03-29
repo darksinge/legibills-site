@@ -6,6 +6,10 @@
  */
 
 module.exports = {
-	
+	profile: (req, res) => {
+        return res.view('homepage', {
+            user: req.user.toJSON()
+        });
+    }
 };
 

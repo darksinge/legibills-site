@@ -19,10 +19,10 @@ module.exports = {
         return uuid.v4().split('-').join('');
 			}
 		},
-    firstname: string,
-    lastname: string,
-    username: string,
-    facebookId: string,
+    firstname: 'string',
+    lastname: 'string',
+    username: 'string',
+    facebookId: 'string',
   }
 };
 
