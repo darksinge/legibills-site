@@ -11,9 +11,12 @@ var facebookConfig = {
 }
 
 function onFacebookAuth(accessToken, refreshToken, profile, done) {
-	
-	User.findOne({ facebookId: query.facebookId }).exec(function (err, user) {
-		
+	var profile = profile._json;
+    console.log('PROFILE: ', profile);
+	User.findOne({ facebookId: profile.id }).exec(function (err, user) {
+		if (err) return done(err);
+        if (user) return done(null, user);
+        
 	});
 }
 
