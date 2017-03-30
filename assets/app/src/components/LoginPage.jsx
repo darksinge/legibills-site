@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-var authRoute = "http://localhost:1337/auth/facebook";
+var authRoute = "http://localhost:1337/oauth/facebook";
 
 var LoginPage = React.createClass({
     render: () => {

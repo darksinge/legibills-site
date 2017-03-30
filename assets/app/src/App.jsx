@@ -12,6 +12,7 @@ import NotFound from './components/NotFound.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import Footer from './components/Footer.jsx';
 import SearchPage from './components/SearchPage.jsx';
+import ProfilePage from './components/ProfilePage.jsx';
 
 var listStyle = {
     display: 'inline',
@@ -56,6 +57,7 @@ var App = React.createClass({
                         <Route path="/about" component={AboutPage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/search" component={SearchPage} />
+                        <Route path="/profile" component={ProfilePage} />
                         <Route component={NotFound} />
                     </Switch>
                     {/*<Footer className="page-footer" />*/}
