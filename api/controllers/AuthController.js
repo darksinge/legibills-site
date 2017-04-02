@@ -1,26 +1,30 @@
 var passport = require('passport');
 
 module.exports = {
-
+    
     facebookAuth: (req, res) => {
         return passport.authenticate('facebook')(req, res);
     },
-
+    
     facebookCallback: (req, res) => {
-        // passport.authenticate('facebook', {
-        //     failureRedirect: '/login',
-        //     successRedirect: '/profile'
-        // })(req, res);
         passport.authenticate('facebook', (err, user, info) => {
-            if (info) console.log('Info:: ', info);
-            if (err) { console.log(err); return res.negotiate(err); }
-            if (!user) return res.forbidden('User not found!');
-            console.log('User: ', user);
-            req.logIn(user, (err) => {
-                if (err) return res.negotiate(err);
+            if (info) sails.log.info(info);
+            if (err) { 
+                sails.log.error(err);
+                return res.negotiate(err); 
+            }
+            
+            var token = AuthService.getToken(user);
+            user.jwt_token = token;
+            user.save(err => {
+                if (err) {
+                    sails.log.error(err);
+                    return res.negotiate(err);
+                }
+                res.cookie('jwt_token', token);
                 return res.redirect('/profile');
             });
         })(req, res);
     }
-
+    
 }
