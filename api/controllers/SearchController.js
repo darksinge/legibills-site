@@ -15,8 +15,8 @@ var fakeData = {
         {
             id: 3,
             rank: 0.25,
-            title: "Bill 1",
-            description: "This is the last bill. It sucks."
+            title: "Bill 3",
+            description: "This is the third bill. It sucks."
         }
     ]
 }
