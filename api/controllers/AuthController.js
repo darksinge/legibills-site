@@ -14,16 +14,8 @@ module.exports = {
                 return res.negotiate(err); 
             }
             
-            var token = AuthService.getToken(user);
-            user.jwt_token = token;
-            user.save(err => {
-                if (err) {
-                    sails.log.error(err);
-                    return res.negotiate(err);
-                }
-                res.cookie('jwt_token', token);
-                return res.redirect('/profile');
-            });
+            res.cookie('jwt_token', AuthService.generateToken(user));
+            return res.redirect('/profile');
         })(req, res);
     }
     

@@ -3,14 +3,30 @@
  * -----------------------
  */
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 var jwt_secret = sails.config.jwt.jwt_secret;
 
 module.exports = {
 
-    getToken: (user) => {
+    generateToken: (user) => {
         if (user.toJSON) user = user.toJSON();
-        return jwt.sign({user: user}, jwt_secret);
+
+        var token = jwt.sign({user: user}, jwt_secret);
+
+        var encodedToken = bcrypt.hashSync(token, saltRounds);
+
+        User.update({id: user.id}, {jwt_token: encodedToken}).exec((err, user) => {
+            if (err) sails.log.error(err);
+        });
+
+        return token;
+    },
+
+    compareTokens: (user, token) => {
+        return bcrypt.compareSync(token, user.user.jwt_token);
     }
 
 }
