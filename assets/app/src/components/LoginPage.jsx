@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-var authRoute = process.env.NODE_ENV === 'production' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
+var authRoute = process.env.NODE_ENV === 'development' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
 
 class LoginPage extends React.Component {
     render() {
