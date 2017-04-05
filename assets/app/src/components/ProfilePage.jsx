@@ -3,8 +3,6 @@
 import React from 'react';
 import Cookie from 'react-cookie';
 
-
-
 class ProfilePage extends React.Component {
 
   constructor() {

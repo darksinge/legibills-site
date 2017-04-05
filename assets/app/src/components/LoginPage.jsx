@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-var authRoute = "http://localhost:1337/oauth/facebook";
+var authRoute = process.env.NODE_ENV === 'development' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
 
 var LoginPage = React.createClass({
     render: () => {
         return (
-            <div className="container"> 
+            <div className="container">
                 <div className="row">
                     <div className="col s12 m8 l6 offset-l3 offset-m2">
                         <div className="card">
