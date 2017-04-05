@@ -9,6 +9,15 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
+var passport = require('passport');
+// var session = require('express-session');
+// var RedisStore = require('connect-redis')(session);
+
+// var options = {
+//   host: 'localhost',
+//   port: 6379
+// }
+
 module.exports.http = {
 
   /****************************************************************************
@@ -30,23 +39,35 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+    passportInit: passport.initialize(),
+    passportSession: passport.session(),
+    // redisStore: () => {
+    //   session({
+    //     store: new RedisStore(options),
+    //     secret: 'eba9e751f5c276e906e0fe41578ef604'
+    //   });
+    // },
+
+    order: [
+      'startRequestTimer',
+      'cookieParser',
+      'session',
+      'myRequestLogger',
+      'bodyParser',
+      'handleBodyParserError',
+      'passportInit',
+      'passportSession',
+      'redisStore',
+      'compress',
+      'methodOverride',
+      'poweredBy',
+      '$custom',
+      'router',
+      'www',
+      'favicon',
+      '404',
+      '500'
+    ],
 
   /****************************************************************************
   *                                                                           *
