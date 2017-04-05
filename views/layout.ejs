@@ -3,21 +3,40 @@
   <head>
     <title>Rate My Bill</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    
+    <meta name="description" content="Ratemybill.com is the demystifier of Utah legislation that allows users to discuss bills, view trends, and voice opinions.">
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="/styles/importer.css" />
     <link rel="stylesheet" href="/styles/materialize.css" />
-    
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   </head>
 
   <body>
-    <div class="container" id="app"></div>
-    <!--<%- body %>-->
+
+    <main id="app"></main>
+    <%- body %>
+    <footer class="grey darken-3">
+      <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">About</h5>
+                    <p class="grey-text text-lighten-4">
+                        Ratemybill.com is a data classification and information retrieval project being developed by students at <a class="green-text" href="https://usu.edu">Utah State University</a>.
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/darksinge/ratemybill-site">Github repository</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
     <script src="/js/dependencies/sails.io.js"></script>    
     <script src="/app/bundle.js"></script>
+    <script src="/js/materialize.js"></script>
   </body>
 </html>

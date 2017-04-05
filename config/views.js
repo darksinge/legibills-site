@@ -34,17 +34,6 @@ module.exports.views = {
 
   engine: 'ejs',
 
-  // engine: {
-  //   fn: require('express-react-views').createEngine(),
-  //   ext: 'jsx'
-  // },
-
-  // engine: 'ejs',
-  // locals: {
-  //   open: '<?',
-  //   close: '?>'
-  // },
-
   /****************************************************************************
   *                                                                           *
   * Layouts are simply top-level HTML templates you can use as wrappers for   *
