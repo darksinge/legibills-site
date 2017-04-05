@@ -1,14 +1,11 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-const FACEBOOK_ID_RMB = process.env.FACEBOOK_ID_RMB;
-const FACEBOOK_SECRET_RMB = process.env.FACEBOOK_SECRET_RMB;
-
 var facebookConfig = {
-	clientID: process.env.FACEBOOK_ID_RMB || '265204003925383',
-    clientSecret: process.env.FACEBOOK_SECRET_RMB || '4c527a1e12f23770233bc020a3b61263',
-    callbackURL: "http://localhost:1337/oauth/facebook/callback"
-}
+	clientID: process.env.FACEBOOK_ID_RMB,
+    clientSecret: process.env.FACEBOOK_SECRET_RMB,
+    callbackURL: process.env.NODE_ENV === 'development' ? 'http://localhost:1337/oauth/facebook/callback' : 'https://ratemybill.com/oauth/facebook/callback'
+};
 
 function parseFirstName(profile) {
 	if (profile.name && profile.name.givenName) return profile.name.givenName;
@@ -42,12 +39,12 @@ function onFacebookAuth(accessToken, refreshToken, profile, done) {
 		firstname: parseFirstName(profile),
 		lastname: parseLastName(profile),
 		gender: profile.gender
-	}
+	};
 
 	User.findOrCreate({ facebookId: profile.id}, newUser).exec((err, createdOrFoundUsers) => {
 		if (err) return done(err);
 		if (Array.isArray(createdOrFoundUsers)) {
-			return done(null, createdOrFoundUsers[0])
+			return done(null, createdOrFoundUsers[0]);
 		}
 		return done(null, createdOrFoundUsers);
 	});
