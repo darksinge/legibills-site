@@ -14,6 +14,7 @@
     "consolidate": "^0.14.5",
     "cookiejar": "^2.1.0",
     "ejs": "2.3.4",
+    "eslint": "^3.19.0",
     "express": "^4.15.2",
     "express-react-views": "^0.10.2",
     "express-session": "^1.15.2",
