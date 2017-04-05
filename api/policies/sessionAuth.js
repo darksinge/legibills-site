@@ -8,18 +8,24 @@
  *
  */
 
-var jwt = require('jsonwebtoken');
+let jwt = require('jsonwebtoken');
 
 module.exports = function(req, res, next) {
 
   if (req.session.authenticated) {
     return next();
-  } 
+  }
   
-  var jwt_token = req.cookies.jwt_token || req.param('jwt');
+  let jwt_token = req.cookies.jwt_token || req.param('jwt');
+
   if (jwt_token) {
-    var user = jwt.verify(jwt_token, sails.config.jwt.jwt_secret);
-    if (AuthService.compareTokens(user, jwt_token)) return next();
+  
+    let user = jwt.verify(jwt_token, sails.config.jwt.jwt_secret);
+
+    if (AuthService.compareTokens(user, jwt_token)) {
+      req.user = user;
+      return next();
+    }
   }
 
   // User is not allowed

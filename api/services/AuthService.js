@@ -2,12 +2,12 @@
  * `AuthService`
  * -----------------------
  */
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+let bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-var jwt_secret = sails.config.jwt.jwt_secret;
+let jwt_secret = sails.config.jwt.jwt_secret;
 
 module.exports = {
 

@@ -9,7 +9,7 @@ class SearchResult extends React.Component {
                 <p><b>description:</b> {this.props.description}</p>
                 <div className="divider"></div>
             </div>
-        )
+        );
     }
 }
 
@@ -28,7 +28,7 @@ class SearchPage extends React.Component {
 
     _handleKeyPress(e) {
         if (e.key == "Enter") {
-            this.onSearch(e)
+            this.onSearch(e);
         }
     }
 
@@ -61,7 +61,7 @@ class SearchPage extends React.Component {
                     <h3>Search All The Bills!</h3>
                 </header>
                 <div className="row">
-                    <div className="col s12 m9 offset-m3 l8 offset-l2">                            
+                    <div className="col s12 m9 offset-m3 l8 offset-l2">
                         <div className="input-field">
                             <input id="search" type="text" value={this.state.query} onChange={this.onSearchInputChange} />
                             <label htmlFor="search"><i className="sm material-icons">search</i></label>
@@ -70,12 +70,12 @@ class SearchPage extends React.Component {
                     </div>
                 </div>
                 <div className="container">
-                    {this.state.searchResults.map((result) => 
+                    {this.state.searchResults.map((result) =>
                         <SearchResult title={result.title} description={result.description} key={result.id} id={result.id} rank={result.rank} />
                     )}
                 </div>
             </div>
-        )
+        );
     }
 }
 

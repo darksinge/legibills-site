@@ -41,7 +41,6 @@ module.exports.routes = {
    */
   'get /profile': 'UserController.index',
   'get /api/profile': 'UserController.profileJSON',
-  // 'post /api/profile': 'UserController.update',
 
   /**
    * ----------------------
@@ -50,7 +49,7 @@ module.exports.routes = {
    */
    'get /oauth/facebook': 'AuthController.facebookAuth',
    '/oauth/facebook/callback': 'AuthController.facebookCallback',
-   
+
 
 
 };

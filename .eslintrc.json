@@ -8,5 +8,10 @@
   },
   "rules": {
     "semi": 2
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true
   }
 }
