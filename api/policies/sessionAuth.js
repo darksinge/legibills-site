@@ -12,23 +12,17 @@ let jwt = require('jsonwebtoken');
 
 module.exports = function(req, res, next) {
 
-  if (req.session.authenticated) {
+  if (req.session && req.session.authenticated) {
     return next();
   }
-  
-  let jwt_token = req.cookies.jwt_token || req.param('jwt');
 
-  if (jwt_token) {
-  
-    let user = jwt.verify(jwt_token, sails.config.jwt.jwt_secret);
-
-    if (AuthService.compareTokens(user, jwt_token)) {
-      req.user = user;
-      return next();
+  AuthService.authorize(req, (err) => {
+    if (err) {
+      sails.log.error(err);
+      return res.forbidden(err);
     }
-  }
+    return next();
+  });
 
-  // User is not allowed
-  // (default res.forbidden() behavior can be overridden in `config/403.js`)
-  return res.forbidden('You are not permitted to perform this action.');
+  // return res.forbidden('You are not permitted to perform this action.');
 };

@@ -25,8 +25,30 @@ module.exports = {
         return token;
     },
 
-    compareTokens: (user, token) => {
-        return bcrypt.compareSync(token, user.user.jwt_token);
+    compareTokens: (token, hash) => {
+        return bcrypt.compareSync(token, hash);
+    },
+
+    authorize: (req, next) => {
+      let authToken = req.headers.authorization;
+
+      if (!authToken) {
+        return next(new Error('authorization token not found.'));
+      }
+
+      let decoded = jwt.verify(authToken, sails.config.jwt.jwt_secret);
+
+      User.findOne({id: decoded.user.id}).exec((err, user) => {
+        if (err) return next(err);
+        if (!user) return next(new Error('authorization failed, user not found.'));
+        if (AuthService.compareTokens(authToken, user.jwt_token)) {
+          req.user = user;
+          return next(null);
+        }
+        return next(new Error('authorization failed, token mismatch.'));
+      });
+
+
     }
 
 }

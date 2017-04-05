@@ -1,15 +1,15 @@
+'use strict';
+
 import React from 'react';
 import Cookie from 'react-cookie';
 
-var headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json'
-}
+
 
 class ProfilePage extends React.Component {
-  
+
   constructor() {
     super();
+
     this.state = {
       user: {
         firstname: '',
@@ -19,12 +19,18 @@ class ProfilePage extends React.Component {
       },
       error: '',
       successText: ''
-    }
+    };
+
+    this.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+
     this.fetchUser = this.fetchUser.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
   }
-  
+
   fetchUser() {
     let jwt_token = Cookie.load('jwt_token');
     if (!jwt_token) {
@@ -32,7 +38,10 @@ class ProfilePage extends React.Component {
         error: "Cannot authenticate!"
       });
     }
-    fetch('/api/profile?jwt=' + jwt_token, {
+
+    var headers = this.headers;
+    headers.Authorization = jwt_token;
+    fetch('/api/profile', {
       headers: headers
     })
     .then((res) => {
@@ -51,10 +60,12 @@ class ProfilePage extends React.Component {
       });
     });
   }
-  
+
   updateProfile() {
     let user = this.state.user;
-    let params = '?username=' + user.username + '&firstname=' + user.firstname + '&lastname=' + user.lastname + '&jwt=' + Cookie.load('jwt_token');
+    let params = '?username=' + user.username + '&firstname=' + user.firstname + '&lastname=' + user.lastname;
+    var headers = this.headers;
+    headers.Authorization = Cookie.load('jwt_token');
     fetch('/user/' + this.state.user.id + params, {
       method: 'PUT',
       headers: headers
@@ -75,11 +86,11 @@ class ProfilePage extends React.Component {
       });
     });
   }
-  
+
   componentDidMount() {
     this.fetchUser();
   }
-  
+
   handleChange(e) {
     const target = e.target;
     const name = target.name;
@@ -92,7 +103,7 @@ class ProfilePage extends React.Component {
       user: user
     });
   }
-  
+
   render() {
     let style = {
       inputBorder: {
@@ -103,7 +114,7 @@ class ProfilePage extends React.Component {
         display: "inline"
       }
     };
-    
+
     return (
       <div>
         <div className="container">
@@ -159,7 +170,7 @@ class ProfilePage extends React.Component {
             </div>
           </div>
         </div>
-      
+
       </div>
     );
   }
