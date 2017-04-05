@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
 
   AuthService.authorize(req, (err) => {
     if (err) {
-      sails.log.error(err);
+      sails.log.error(err.message);
       return res.forbidden(err);
     }
     return next();

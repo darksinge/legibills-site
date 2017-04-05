@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-var authRoute = process.env.NODE_ENV === 'development' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
+var authRoute = process.env.NODE_ENV === 'production' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
 
-var LoginPage = React.createClass({
-    render: () => {
+class LoginPage extends React.Component {
+    render() {
         return (
             <div className="container">
                 <div className="row">
@@ -14,11 +14,11 @@ var LoginPage = React.createClass({
                                 <span className="card-title">Sign In</span>
                                 <div className="input-field">
                                     <label htmlFor="email">Email</label>
-                                    <input id="email" type="text" className="validate"></input>
+                                    <input id="email" type="text" className="validate" />
                                 </div>
                                 <div className="input-field">
                                     <label htmlFor="password">Password</label>
-                                    <input id="password" type="password" className="validate"></input>
+                                    <input id="password" type="password" className="validate" />
                                 </div>
                             </div>
                             <div className="card-action">
@@ -35,6 +35,6 @@ var LoginPage = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = LoginPage;
