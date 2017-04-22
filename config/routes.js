@@ -22,34 +22,34 @@
 
 module.exports.routes = {
 
+  // ------------------------
   // Default Route
+  // ------------------------
   '/': {
     view: 'homepage'
   },
-
-  /**
-   * ------------------------
-   * SearchController routes
-   * ------------------------
-   */
+  
+   // ------------------------
+   // SearchController routes
+   // ------------------------
   '/api/search': 'SearchController.search',
 
-  /**
-   * ----------------------
-   * UserController routes
-   * ----------------------
-   */
-  'get /profile': 'UserController.index',
-  'get /api/profile': 'UserController.profileJSON',
+   // ------------------------
+   // UserController routes
+   // ------------------------
+  'GET /profile': 'UserController.index',
+  'GET /api/profile': 'UserController.profileJSON',
 
-  /**
-   * ----------------------
-   * AuthController routes
-   * ----------------------
-   */
-   'get /oauth/facebook': 'AuthController.facebookAuth',
+   // ------------------------
+   // AuthController routes
+   // ------------------------
+   'GET /oauth/facebook': 'AuthController.facebookAuth',
    '/oauth/facebook/callback': 'AuthController.facebookCallback',
-
-
+   
+   // ------------------------
+   // CommentController Routes
+   // ------------------------
+   'GET  /comment/:bill': 'CommentController.billComments',
+   'POST /comment': 'CommentController.create'
 
 };

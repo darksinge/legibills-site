@@ -27,13 +27,14 @@ module.exports = {
      * will be the means of returning search results for our dear end users.
      * 
      */
-    search: (req, res) => {
-        // get text for query
-        // tokenize query
-        // stem tokenized words
-        // get docs that contain words
-        // get tf-idf scores for docs
-        // order docs by score
-        return res.json(fakeData);
+    search: function(req, res) {
+
+        var query = req.param('i like cats');
+
+        var results = SearchService.search(query);
+
+        return res.json({
+            results: results
+        });
     }
 }

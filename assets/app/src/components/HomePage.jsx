@@ -15,7 +15,8 @@ var HomePage = React.createClass({
     return (
     <div>
       <div className="row container">
-        <p className="flow-text red-text center-align">This Site Is Under Construction!</p>
+        <p className="flow-text red-text center-align">This site is in development!</p>
+        <p className="red-text center-align">Although we do not store sensitive information, we do not currently guarantee the integrity or persistence of data such as user accounts, comments, or posts.</p>
         <div className="divider"></div>
         <div className="col l9 offset-l3">
           <h1 className="">Welcome to RateMyBill!</h1>
