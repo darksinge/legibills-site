@@ -28,7 +28,7 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-
+  
    // ------------------------
    // SearchController routes
    // ------------------------

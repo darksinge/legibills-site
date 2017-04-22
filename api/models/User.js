@@ -9,7 +9,7 @@ var uuid = require('uuid');
 
 module.exports = {
   schema: true,
-  
+
   attributes: {
     id: {
 			type: 'string',
@@ -30,7 +30,6 @@ module.exports = {
     facebookId: 'string',
 
     location: 'string',
-
     gender: {
       type: 'string',
       defaultsTo: 'not provided'
@@ -53,7 +52,6 @@ module.exports = {
       delete obj.updatedAt;
       return obj;
     }
-
   }
 };
 
