@@ -1,0 +1,7 @@
+/**
+ * `UserController.js`
+ */
+
+module.exports = {
+
+}

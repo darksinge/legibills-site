@@ -15,7 +15,6 @@ module.exports = {
         id: {
 			type: 'integer',
 			unique: true,
-			required: true,
 			primaryKey: true,
 			autoIncrement: true
 		},
@@ -25,7 +24,8 @@ module.exports = {
         body: 'string',
 
         user: {
-            model: 'user'
+            model: 'user',
+            required: true
         }
         
     }

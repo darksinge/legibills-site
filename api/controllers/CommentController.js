@@ -4,7 +4,7 @@
 
 module.exports = {
     
-    comments: (req, res) => {
+    billComments: function(req, res) {
         var billId = req.params.bill;
         
         Comment.find({
@@ -14,14 +14,15 @@ module.exports = {
                 updatedAt: 0
             }
         })
-        .exec((err, comments) => {
+        .populate('user')
+        .exec(function(err, comments) {
             if (err) sails.log.error(err);
             
             if (!comments) {
                 return res.json({comments: []});
             }
             
-            comments = comments.map((value) => {
+            comments = comments.map(function(value) {
                 return value.toJSON ? value.toJSON() : value;
             });
             
@@ -32,14 +33,14 @@ module.exports = {
         
     },
 
-    create: (req, res) => {
-        var comment = req.params.comment;
+    create: function(req, res) {
+        var comment = req.body.comment;
 
-        if (!comment.bill || !comment.user || !comment.body) {
+        if (!comment.billId || !comment.user || !comment.body) {
             return res.status(400).json({ error: "Missing parameter(s). Comment object should have properties 'bill', 'user', 'body'" });
         }
 
-        Comment.create(comment).exec((err, comments) => {
+        Comment.create(comment).exec(function(err, comments) {
             if (err) sails.log.error(err);
             
             if (!comments) {
@@ -49,10 +50,32 @@ module.exports = {
             }
 
             return res.json({
-                comment: comments[0]
+                comment: comments
             });
         });
 
+    },
+
+    find: (req, res) => {
+        Comment.find()
+        .populate('user')
+        .exec(function(err, comments) {
+            if (err) sails.log.error(err);
+            if (comments) {
+                return res.json(comments.map(value => {
+                    if (value.toJSON) value = value.toJSON();
+
+                    var user = {
+                        id: value.user.id,
+                        username: value.user.username
+                    };
+
+                    value.user = user;
+
+                    return value;
+                }));
+            }
+        });
     }
     
 }

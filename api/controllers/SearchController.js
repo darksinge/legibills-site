@@ -27,7 +27,7 @@ module.exports = {
      * will be the means of returning search results for our dear end users.
      * 
      */
-    search: (req, res) => {
+    search: function(req, res) {
 
         var query = req.param('i like cats');
 

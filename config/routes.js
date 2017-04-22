@@ -37,18 +37,19 @@ module.exports.routes = {
    // ------------------------
    // UserController routes
    // ------------------------
-  'get /profile': 'UserController.index',
-  'get /api/profile': 'UserController.profileJSON',
+  'GET /profile': 'UserController.index',
+  'GET /api/profile': 'UserController.profileJSON',
 
    // ------------------------
    // AuthController routes
    // ------------------------
-   'get /oauth/facebook': 'AuthController.facebookAuth',
-   '/oauth/facebook/callback': 'AuthController.facebookCallback',
+   'GET /oauth/facebook': 'AuthController.facebookAuth',
+   '    /oauth/facebook/callback': 'AuthController.facebookCallback',
    
    // ------------------------
    // CommentController Routes
    // ------------------------
-   'get /comments/:bill': 'CommentController.comments'
+   'GET  /comment/:bill': 'CommentController.billComments',
+   'POST /comment': 'CommentController.create'
 
 };
