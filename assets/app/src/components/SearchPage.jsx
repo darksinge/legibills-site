@@ -17,7 +17,7 @@ class SearchPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            query: "Enter search here (currently this returns garbage)...",
+            query: "Enter search here",
             searchResults: [],
             err: ''
         }
@@ -33,7 +33,7 @@ class SearchPage extends React.Component {
     }
 
     onSearch(event) {
-        return fetch('/api/search')
+        return fetch('/api/search?query=' + this.state.query)
         .then((res) => {
             res.json()
             .then(body => {

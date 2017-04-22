@@ -28,6 +28,12 @@ module.exports = {
      * 
      */
     search: (req, res) => {
+        // get text for query
+        // tokenize query
+        // stem tokenized words
+        // get docs that contain words
+        // get tf-idf scores for docs
+        // order docs by score
         return res.json(fakeData);
     }
 }

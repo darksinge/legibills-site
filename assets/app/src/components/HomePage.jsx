@@ -23,7 +23,7 @@ var HomePage = React.createClass({
         <div className="col l6 offset-l3">
             <p className="flow-text">Ratemybill.com is the demystifier of Utah legislation that allows users to discuss bills, view trends, and voice opinions.</p>
             <p className="flow-text"><Link to="/list"> Click here to view the list of bills </Link></p>
-            <Link to="/signup"><span className="waves-effect waves-light btn">Create account</span></Link>
+            <Link to="/login"><span className="waves-effect waves-light btn">Create account</span></Link>
         </div>
 
       </div>

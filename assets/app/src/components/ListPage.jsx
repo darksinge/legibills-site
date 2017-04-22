@@ -1,11 +1,49 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
+class ListByYear extends React.Component{
+    render() {
+        return (
+            <div>
+                <h5>{this.props.year}</h5>
+                {this.props.bills.map((resultB) =>
+                    <p> 
+                        <Link to={'/bill/' + this.props.year + '/' + resultB.id}><b>{resultB.id}</b></Link>: 
+                        {resultB.name}
+                    </p>
+                )}
+            </div>
+        );
+    }
+}
 
 class ListPage extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
             //This is just an example. We could pull in the bills like this and then populate a list.
-            billsByYear: {2017:["HB001", "HB002", "HB003", "HB004"], "Other Years":["Currently None"]}
+            billsByYear: [  {"year" : 2017,
+                            "bills" :[ 
+                                { "id" : "HB001",
+                                  "name" : "Name of this one"
+                                },
+                                { "id" : "HB002",
+                                  "name" : "Name of the second one"
+                                },
+                                { "id" : "HB003",
+                                  "name" : "Name of the third one"
+                                },
+                                { "id" : "HB004",
+                                  "name" : "Budget Bill"
+                                }]
+                            },
+                            {"year" : "Other Years",
+                             "bills" : [
+                                { "id" : " ",
+                                  "name" : "Currently None"
+                                }]
+                            }
+                        ]
         }
     }
 
@@ -13,17 +51,9 @@ class ListPage extends React.Component {
         return (
             <div className="container">
                 <h4> List of Bills (by year)</h4>
-                <h5> 2017 </h5>
-                <ul>
-                    <li><a href="/bill">HB001</a> Bill info here</li>
-                    <li><a href="/bill">HB002</a> Bill info here</li>
-                    <li><a href="/bill">HB003</a> Bill info here</li>
-                    <li><a href="/bill">HB004</a> Bill info here</li>
-                </ul>
-                <h5> Other Years </h5>
-                <ul>
-                    <li> None Yet </li>
-                </ul>
+                {this.state.billsByYear.map((result) =>
+                    <ListByYear year={result.year} bills={result.bills} />
+                )}
             </div>
         )
     }
