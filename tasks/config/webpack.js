@@ -23,6 +23,25 @@ module.exports = function(grunt) {
             },
             watch: process.env.NODE_ENV === 'development',
             keepalive: true
+
+        },
+
+        prod: {
+            entry: './assets/app/index.js',
+            output: { path:'./.tmp/public/app', filename: 'bundle.js'},
+            module: {
+                loaders: [
+                    {
+                        loader: 'babel-loader',
+                        test: /\.jsx?$/,
+                        exclude: /node_modules/,
+                        options: {"presets": ['es2015', 'react']}
+                    }
+                ]
+            },
+
+            watch: false
+
         }
     });
     
