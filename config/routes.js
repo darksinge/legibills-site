@@ -44,7 +44,7 @@ module.exports.routes = {
    // AuthController routes
    // ------------------------
    'GET /oauth/facebook': 'AuthController.facebookAuth',
-   '    /oauth/facebook/callback': 'AuthController.facebookCallback',
+   '/oauth/facebook/callback': 'AuthController.facebookCallback',
    
    // ------------------------
    // CommentController Routes

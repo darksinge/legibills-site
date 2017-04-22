@@ -26,7 +26,11 @@ module.exports = {
   },
 
   authorize: (req, next) => {
-    let authToken = req.headers.authorization;
+    var authToken = req.headers.authorization;
+
+    if (!authToken) {
+      authToken = req.user.jwt_token;
+    }
 
     if (!authToken) {
       return next(new Error('authorization token not found.'));

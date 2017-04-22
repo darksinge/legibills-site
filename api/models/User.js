@@ -47,7 +47,6 @@ module.exports = {
       delete obj.facebookId;
       delete obj.location;
       delete obj.gender;
-      delete obj.jwt_token;
       delete obj.createdAt;
       delete obj.updatedAt;
       return obj;
