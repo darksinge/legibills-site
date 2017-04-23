@@ -1,8 +1,8 @@
 import React from 'react';
 
 class BillPage extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             bId: "HB000",
             bName: "Bill Name",
@@ -15,6 +15,23 @@ class BillPage extends React.Component {
         this.addMehVote = this.addMehVote.bind(this);
         this.addAngryVote = this.addAngryVote.bind(this);
         this.unclickButtons = this.unclickButtons.bind(this);
+        this.getBill(props);
+    }
+
+    getBill(props) {
+        let location = props.location.pathname.split('/');
+        let year = location[2];
+        let billId = location[3];
+        return fetch("https://ratemybill.com/engine/bill_info/" + year + "/" + billId)
+        .then(res => {
+            return res.json();
+        })
+        .then(body => {
+            console.log(body);
+        })
+        .catch(err => {
+            console.error(err);
+        });
     }
 
     addHappyVote(event){
