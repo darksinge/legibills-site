@@ -16,8 +16,7 @@ class BillPage extends React.Component {
             bLink: "https://le.utah.gov/~2017/bills/static/HB0001.html",
             bText: "This is where bill text will be.",
             bComments: "This is where comments will go.",
-            year: 2017,
-            results: {}
+            year: 2017
         }
         this.addHappyVote = this.addHappyVote.bind(this);
         this.addMehVote = this.addMehVote.bind(this);
@@ -62,11 +61,16 @@ class BillPage extends React.Component {
        const billId = location[3];
        return fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + billId)
        .then(res => {
-            console.log("res", res);
            return res.json();
        })
        .then(body => {
-           console.log(body);
+            this.setState({
+                bId: body.bill,
+                bName: body.name,
+                bLink: body.link,
+                bText: body.description,
+                year: body.year
+            });
        })
        .catch(err => {
            console.error(err);
@@ -78,11 +82,13 @@ class BillPage extends React.Component {
             <div className="container">
                 <h4>{this.state.bId}</h4>
                 <h5>{this.state.bName}</h5>
+                <h6>{this.state.year}</h6>
                 <div>
                     <p className="flow-text">How do you feel about this bill?</p>
+                    <p className="flow-text" >
                     <a id="happyBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addHappyVote}>😊</a>
                     <a id="mehBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addMehVote}>😕</a>
-                    <a id="angryBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addAngryVote}>😠</a>
+                    <a id="angryBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addAngryVote}>😠</a></p>
                     <div id="votesDV"> 
                         <p style={fontSize}> This is how other users felt: 
                         😊 {this.state.bVotes[0]} &nbsp;&nbsp; 

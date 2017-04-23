@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+const searchroute = "https://ratemybill.com/engine/search/";
+
 class SearchResult extends React.Component {
     render() {
         return (
             <div>
-                <Link to={'/bill/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
+                <Link to={'/bill/' + this.props.year + '/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
                 <p><b>description:</b> {this.props.description}</p>
                 <div className="divider"></div>
             </div>
@@ -33,13 +35,16 @@ class SearchPage extends React.Component {
     }
 
     onSearch(event) {
-        return fetch('/api/search?query=' + this.state.query)
+        return fetch(searchroute + this.state.query)
         .then((res) => {
             res.json()
             .then(body => {
-                console.log(body);
+                var tempSearchResults = []
+                Object.keys(body).forEach(function(key) {
+                    tempSearchResults.push(body[key])
+                });
                 this.setState({
-                    searchResults: body.results
+                    searchResults: tempSearchResults
                 });
             });
         })
@@ -71,7 +76,7 @@ class SearchPage extends React.Component {
                 </div>
                 <div className="container">
                     {this.state.searchResults.map((result) =>
-                        <SearchResult title={result.title} description={result.description} key={result.id} id={result.id} rank={result.rank} />
+                        <SearchResult title={result.name} description={result.description} year={result.year} id={result.bill} />
                     )}
                 </div>
             </div>
