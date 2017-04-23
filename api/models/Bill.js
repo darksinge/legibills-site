@@ -19,15 +19,25 @@ module.exports = {
 			autoIncrement: true
 		},
         
-        bill: {
-            model: 'bill'
+        name: {
+            type: 'string',
+            required: true
         },
         
-        body: 'string',
-        
-        user: {
-            model: 'user',
+        year: {
+            type: 'string',
             required: true
+        },
+        
+        comment: {
+            collection: 'comment',
+            via: 'bill'
+        },
+
+        toJSON: () => {
+            var obj = this.toObject();
+            delete obj.createdAt;
+            delete obj.updatedAt;
         }
         
     }
