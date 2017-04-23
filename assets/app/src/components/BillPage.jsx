@@ -1,7 +1,9 @@
 import React from 'react';
 
+const billroute = "https://ratemybill.com/engine/bill_info/";
+
 class BillPage extends React.Component {
-    constructor() {
+    constructor(props) {
         super()
         this.state = {
             bId: "HB000",
@@ -9,12 +11,16 @@ class BillPage extends React.Component {
             bVotes: [2,1,5],
             bLink: "https://le.utah.gov/~2017/bills/static/HB0001.html",
             bText: "This is where bill text will be.",
-            bComments: "This is where comments will go."
+            bComments: "This is where comments will go.",
+            year: 2017,
+            results: {}
         }
         this.addHappyVote = this.addHappyVote.bind(this);
         this.addMehVote = this.addMehVote.bind(this);
         this.addAngryVote = this.addAngryVote.bind(this);
         this.unclickButtons = this.unclickButtons.bind(this);
+
+        this.getBill(props);
     }
 
     addHappyVote(event){
@@ -45,6 +51,23 @@ class BillPage extends React.Component {
             document.getElementById("angryBtn").className = "btn-floating waves-effect waves-light btn-flat";
         }
     }
+
+    getBill(props) {
+       let location = props.location.pathname.split('/');
+       const year = location[2];
+       const billId = location[3];
+       return fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + billId)
+       .then(res => {
+            console.log("res", res);
+           return res.json();
+       })
+       .then(body => {
+           console.log(body);
+       })
+       .catch(err => {
+           console.error(err);
+       });
+   }
 
     render() {
         return (
