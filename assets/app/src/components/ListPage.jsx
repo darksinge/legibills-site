@@ -21,29 +21,28 @@ class ListPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            //This is just an example. We could pull in the bills like this and then populate a list.
             billsByYear: [  {"year" : 2017,
-                            "bills" :[ 
-                                { "id" : "HB001",
-                                  "name" : "Name of this one"
-                                },
-                                { "id" : "HB002",
-                                  "name" : "Name of the second one"
-                                },
-                                { "id" : "HB003",
-                                  "name" : "Name of the third one"
-                                },
-                                { "id" : "HB004",
-                                  "name" : "Budget Bill"
-                                }]
-                            },
-                            {"year" : "Other Years",
-                             "bills" : [
-                                { "id" : " ",
-                                  "name" : "Currently None"
-                                }]
-                            }
-                        ]
+                "bills" :[ 
+                    { "id" : "HB001",
+                      "name" : "Name of this one"
+                    },
+                    { "id" : "HB002",
+                      "name" : "Name of the second one"
+                    },
+                    { "id" : "HB003",
+                      "name" : "Name of the third one"
+                    },
+                    { "id" : "HB004",
+                      "name" : "Budget Bill"
+                    }]
+                },
+                {"year" : "Other Years",
+                 "bills" : [
+                    { "id" : " ",
+                      "name" : "Currently None"
+                    }]
+                }
+            ]
         }
     }
 
