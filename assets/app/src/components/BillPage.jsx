@@ -2,6 +2,10 @@ import React from 'react';
 
 const billroute = "https://ratemybill.com/engine/bill_info/";
 
+const fontSize = {
+    fontSize: "10pt"
+}
+
 class BillPage extends React.Component {
     constructor(props) {
         super()
@@ -74,19 +78,19 @@ class BillPage extends React.Component {
             <div className="container">
                 <h4>{this.state.bId}</h4>
                 <h5>{this.state.bName}</h5>
-                <p className={"flow-text"}>
-                    <div> How do you feel about this bill? </div>
+                <div>
+                    <p className="flow-text">How do you feel about this bill?</p>
                     <a id="happyBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addHappyVote}>😊</a>
                     <a id="mehBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addMehVote}>😕</a>
                     <a id="angryBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addAngryVote}>😠</a>
                     <div id="votesDV"> 
-                        <font size="2"> This is how other users felt: 
-                        😊: {this.state.bVotes[0]} &nbsp;&nbsp; 
-                        😕: {this.state.bVotes[1]} &nbsp;&nbsp; 
-                        😠: {this.state.bVotes[2]}
-                        </font>
+                        <p style={fontSize}> This is how other users felt: 
+                        😊 {this.state.bVotes[0]} &nbsp;&nbsp; 
+                        😕 {this.state.bVotes[1]} &nbsp;&nbsp; 
+                        😠 {this.state.bVotes[2]}
+                        </p>
                     </div>
-                </p>
+                </div>
                 <p className={"flow-text"}>
                     <a target="_blank" href={this.state.bLink}>
                     <font size="3">
