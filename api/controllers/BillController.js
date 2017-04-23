@@ -1,0 +1,7 @@
+/**
+ * `BillController.js`
+ */
+
+module.exports = {
+    
+};

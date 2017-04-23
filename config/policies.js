@@ -35,7 +35,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
   CommentController: {
-    '*': false
+    '*': true
   },
 
   UserController: {
