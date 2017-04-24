@@ -29,7 +29,7 @@ var HomePage = React.createClass({
 
       </div>
       <div className="row container">
-      <Link to="/bill">
+      <Link to="/bill/2017/HB0442">
         <div className="col s12 m12 l4">
           <div className="card horizontal hoverable feature-card">
             <div className="card-image">
@@ -37,39 +37,43 @@ var HomePage = React.createClass({
             </div>
             <div className="card-stacked">
               <div className="card-content">
-                <span className="card-title">Feature 1</span>
-                <p className="">This is the first featured bill.</p>
+                <span className="card-title">Alcohol Amendments</span>
+                <p className="">This bill modifies provisions related to the regulation of alcoholic beverages.</p>
               </div>
             </div>
           </div>
         </div>
         </Link>
-        <div className="col s12 m12 l4">
-          <div className="card horizontal hoverable feature-card">
-            <div className="card-image">
-              <img src={tmpImages.second}></img>
-            </div>
-            <div className="card-stacked">
-              <div className="card-content">
-                <span className="card-title">Feature 2</span>
-                <p className="">This is the second featured bill.</p>
+        <Link to="/bill/2017/HB0098">
+          <div className="col s12 m12 l4">
+            <div className="card horizontal hoverable feature-card">
+              <div className="card-image">
+                <img src={tmpImages.second}></img>
+              </div>
+              <div className="card-stacked">
+                <div className="card-content">
+                  <span className="card-title">Department Of Administrative Services</span>
+                  <p className="">Bill modifies and repeals provisions related to the Department of Administrative Services and funds administered by the Division of Finance.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col s12 m12 l4">
-          <div className="card horizontal hoverable feature-card">
-            <div className="card-image">
-              <img src={tmpImages.third}></img>
-            </div>
-            <div className="card-stacked">
-              <div className="card-content">
-                <span className="card-title">Feature 3</span>
-                <p className="">This is the third featured bill.</p>
+        </Link>
+        <Link to="/bill/2017/HB0239">
+          <div className="col s12 m12 l4">
+            <div className="card horizontal hoverable feature-card">
+              <div className="card-image">
+                <img src={tmpImages.third}></img>
+              </div>
+              <div className="card-stacked">
+                <div className="card-content">
+                  <span className="card-title">Juvenile Justice Amendments</span>
+                  <p className="">Bill modifies provisions related to juvenile justice.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
     );

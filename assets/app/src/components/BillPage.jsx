@@ -1,9 +1,22 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const billroute = "https://ratemybill.com/engine/bill_info/";
 
 const fontSize = {
     fontSize: "10pt"
+}
+
+class RelatedBills extends React.Component {
+    render() {
+        return (
+            <div>
+                <Link target="_self" to={'/bill/' + this.props.year + '/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
+                <p><b>description:</b> {this.props.description}</p>
+                <div className="divider"></div>
+            </div>
+        );
+    }
 }
 
 class BillPage extends React.Component {
@@ -15,8 +28,10 @@ class BillPage extends React.Component {
             bVotes: [2,1,5],
             bLink: "https://le.utah.gov/~2017/bills/static/HB0001.html",
             bText: "This is where bill text will be.",
+            bDesc: "This is the bill's description",
             bComments: "This is where comments will go.",
-            year: 2017
+            year: 2017,
+            relatedBills: []
         }
         this.addHappyVote = this.addHappyVote.bind(this);
         this.addMehVote = this.addMehVote.bind(this);
@@ -59,6 +74,7 @@ class BillPage extends React.Component {
        let location = props.location.pathname.split('/');
        const year = location[2];
        const billId = location[3];
+       this.getRelatedBills(year, billId);
        return fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + billId)
        .then(res => {
            return res.json();
@@ -68,8 +84,23 @@ class BillPage extends React.Component {
                 bId: body.bill,
                 bName: body.name,
                 bLink: body.link,
-                bText: body.description,
+                bDesc: body.description,
                 year: body.year
+            });
+       })
+       .catch(err => {
+           console.error(err);
+       });
+   }
+
+   getRelatedBills(year, billId){
+    return fetch("https://ratemybill.com/engine/cluster/" + year + '/' + billId)
+       .then(res => {
+           return res.json();
+       })
+       .then(body => {
+            this.setState({
+                relatedBills: body.similar
             });
        })
        .catch(err => {
@@ -83,29 +114,32 @@ class BillPage extends React.Component {
                 <h4>{this.state.bId}</h4>
                 <h5>{this.state.bName}</h5>
                 <h6>{this.state.year}</h6>
-                <div>
-                    <p className="flow-text">How do you feel about this bill?</p>
-                    <p className="flow-text" >
+                <h6>{this.state.bDesc}</h6>
+                <a target="_blank" href={this.state.bLink}>
+                <font size="3">
+                    See this bill on the Utah Sate Legislature's web page.
+                </font>
+                </a>
+                <div className="container">
+                    <p className="flow-text">How do you feel about this bill?
                     <a id="happyBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addHappyVote}>😊</a>
                     <a id="mehBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addMehVote}>😕</a>
                     <a id="angryBtn" className="btn-floating waves-effect waves-light btn-flat" onClick={this.addAngryVote}>😠</a></p>
-                    <div id="votesDV"> 
-                        <p style={fontSize}> This is how other users felt: 
+                    <p style={fontSize}> This is how other users felt: 
                         😊 {this.state.bVotes[0]} &nbsp;&nbsp; 
                         😕 {this.state.bVotes[1]} &nbsp;&nbsp; 
                         😠 {this.state.bVotes[2]}
-                        </p>
-                    </div>
+                    </p>
                 </div>
-                <p className={"flow-text"}>
-                    <a target="_blank" href={this.state.bLink}>
-                    <font size="3">
-                        See this bill on the Utah Sate Legislature's web page.
-                    </font>
-                    </a>
-                </p>
                 <p className={"z-depth-2"} >{this.state.bText}</p>
                 <p className={"flow-text"}>{this.state.bComments}</p>
+                <h5>Related Bills</h5>
+                <div className="divider"></div>
+                <div className="container">
+                    {this.state.relatedBills.map((result) =>
+                        <RelatedBills title={result.name} description={result.description} year={result.year} id={result.bill} />
+                    )}
+                </div>
             </div>
         )
     }
