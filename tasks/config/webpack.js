@@ -4,13 +4,12 @@
 * ---------------------------------------------------------------
 */
 
-var path = require('path');
-var appRoot = path.resolve('./');
-const webpackConfig = require(appRoot + '/webpack.config');
+const { resolve } = require('path');
+const webpackConfig = require(resolve('.', './webpack.config'));
 
 module.exports = function(grunt) {
     grunt.config.set('webpack', {
-        dev: webpackConfig
+            build: webpackConfig
     });
     
     grunt.loadNpmTasks('grunt-webpack');
