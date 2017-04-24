@@ -12,7 +12,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "jsx": "react"
   },
   "exclude": [
     "node_modules",

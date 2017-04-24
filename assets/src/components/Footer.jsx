@@ -1,7 +1,7 @@
 import React from 'react';
 
-var Footer = React.createClass({
-    render: () => {
+class Footer extends React.Component {
+    render() {
         return(
             <footer className="page-footer">
                 <div className="container">
@@ -27,7 +27,7 @@ var Footer = React.createClass({
             </footer>
         )
     }
-});
+}
 
 module.exports = Footer;
 

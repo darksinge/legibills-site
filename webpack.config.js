@@ -4,20 +4,24 @@
 * config file for webpack module bundler
 */
 
-var path = require('path');
-var appRoot = path.resolve('./');
+const { resolve, join } = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-    entry: appRoot + '/assets/app/app-entry.js',
-    output: { path: appRoot + './.tmp/public/app', filename: 'bundle.js'},
-    module: {
-        loaders: [{
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader',
-            options: {
-                presets: ['es2015', 'react']
-            }
-        }]
-    }
-}
+        entry: resolve(__dirname, 'assets/src/index.jsx'),
+        context: __dirname,
+        output: {
+            path: resolve(__dirname, './assets/build'),
+            filename: 'bundle.js'
+        },
+        module: {
+            rules: [
+                { 
+                    test: /\.jsx?$/, 
+                    loader: 'babel-loader',
+                    exclude: /node_modules/
+                }
+            ]
+        }
+
+};

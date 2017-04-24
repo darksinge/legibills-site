@@ -1,5 +1,6 @@
 
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import {Button, Text} from 'react-native-web';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -70,5 +71,4 @@ var App = React.createClass({
     }
 });
 
-
-module.exports = App;
+ReactDOM.render(<App/>, document.getElementById('app'));
