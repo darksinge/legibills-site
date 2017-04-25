@@ -50,6 +50,12 @@ module.exports.routes = {
    // CommentController Routes
    // ------------------------
    'GET  /comment/:bill': 'CommentController.billComments',
-   'POST /comment': 'CommentController.create'
+   'POST /comment': 'CommentController.create',
+
+   // billinfo routes
+   '/billinfo/:year/:id': 'BillInfoController.billInfo', 
+   '/billinfo/vote/:year/:id/:votetype': 'BillInfoController.vote',
+   '/billinfo/decreasevote/:year/:id/:votetype': 'BillInfoController.decreasevote',
+   '/billinfo/reset/:year/:id': 'BillInfoController.reset'
 
 };

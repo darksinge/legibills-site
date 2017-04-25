@@ -1,7 +1,0 @@
-/**
- * `BillController.js`
- */
-
-module.exports = {
-    
-};

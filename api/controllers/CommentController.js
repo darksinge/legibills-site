@@ -65,7 +65,7 @@ module.exports = {
             year: comment.bill.year
         };
         
-        Bill.findOrCreate(bill, bill).exec((err, bill) => {
+        BillEntry.findOrCreate(bill, bill).exec((err, bill) => {
             if (err) sails.log.error(err);
             if (Array.isArray(bill)) throw new Error("'bill' is an array.");
             
