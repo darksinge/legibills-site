@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-// import billsJson from '../dev/billsJson';
+import billsJson from '../dev/billsJson';
 
 
 const listRoute = "https://ratemybill.com/engine/list/";
