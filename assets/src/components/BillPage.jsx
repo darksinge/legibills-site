@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+// import $ from 'jquery';
 
 const billroute = "https://ratemybill.com/engine/bill_info/";
 
@@ -30,7 +31,12 @@ class BillPage extends Component {
         this.state = {
             bId: "HB000",
             bName: "Bill Name",
-            bVotes: [2,1,5],
+            // bVotes: [0,0,0],
+            billVotes: {
+                upVotes: 0,
+                downVotes: 0,
+                mehVotes: 0
+            },
             bLink: "https://le.utah.gov/~2017/bills/static/HB0001.html",
             bText: "This is where bill text will be.",
             bDesc: "This is the bill's description",
@@ -41,42 +47,25 @@ class BillPage extends Component {
         this.addHappyVote = this.addHappyVote.bind(this);
         this.addMehVote = this.addMehVote.bind(this);
         this.addAngryVote = this.addAngryVote.bind(this);
-        this.unclickButtons = this.unclickButtons.bind(this);
         this.getBill = this.getBill.bind(this);
+
+        this.updateVotes = this.updateVotes.bind(this);
+        this.isActive = this.isActive.bind(this);
+        // this.setFilter = this.setFilter.bind(this);
 
         this.getBill(props);
     }
 
     addHappyVote(event){
-        this.unclickButtons();
         this.updateVotes(this.state.year, this.state.bId, "happy");
-        document.getElementById("happyBtn").className = "waves-effect waves-light btn-flat black";
     }
 
     addMehVote(event){
-        this.unclickButtons();
         this.updateVotes(this.state.year, this.state.bId, "meh");
-        document.getElementById("mehBtn").className = "waves-effect waves-light btn-flat black";
     }
 
     addAngryVote(event){
-        this.unclickButtons();
         this.updateVotes(this.state.year, this.state.bId, "angry");
-        document.getElementById("angryBtn").className = "waves-effect waves-light btn-flat black";
-    }
-
-    unclickButtons(){
-        // if button is clicked, unclick and decrease vote count
-        if(document.getElementById("happyBtn").className == "waves-effect waves-light btn-flat black"){
-           // this.updateDownVotes(this.state.year, this.state.bId, "happy");
-           document.getElementById("happyBtn").className = "waves-effect waves-light btn-flat";
-        } else if (document.getElementById("mehBtn").className == "waves-effect waves-light btn-flat black"){
-            // this.updateDownVotes(this.state.year, this.state.bId, "meh");
-            document.getElementById("mehBtn").className = "waves-effect waves-light btn-flat";
-        } else if (document.getElementById("angryBtn").className == "waves-effect waves-light btn-flat black"){
-            // this.updateDownVotes(this.state.year, this.state.bId, "angry");
-            document.getElementById("angryBtn").className = "waves-effect waves-light btn-flat";
-        }
     }
 
     getBill(props) {
@@ -144,9 +133,13 @@ class BillPage extends Component {
            return res.json();
        })
        .then(body => {
-            var tempArray = [body.happyVotes, body.mehVotes, body.angryVotes];
+           console.log('VOTES: ', body);
             this.setState({
-                bVotes: tempArray
+                billVotes: {
+                    upVotes: body.happyVotes,
+                    downVotes: body.angryVotes,
+                    mehVotes: body.mehVotes
+                }
             });
        })
        .catch(err => {
@@ -155,16 +148,21 @@ class BillPage extends Component {
    }
 
    updateVotes(year, billId, voteType){
-   console.log("increase votes " + voteType);
+    console.log("increase votes " + voteType);
     return fetch("/billinfo/vote/" + year + '/' + billId + '/' + voteType)
         .then(res => {
            return res.json();
        })
        .then(body => {
-            var tempArray = [body.happyVotes, body.mehVotes, body.angryVotes];
-            console.log(tempArray);
+            // var votes = [body.happyVotes, body.mehVotes, body.angryVotes];
+            // console.log(votes);
             this.setState({
-                bVotes: tempArray
+                // bVotes: votes
+                billVotes: {
+                    upVotes: body.happyVotes,
+                    downVotes: body.angryVotes,
+                    mehVotes: body.mehVotes
+                }
             });
        })
        .catch(err => {
@@ -172,54 +170,67 @@ class BillPage extends Component {
        });
    }
 
-   updateDownVotes(year, billId, voteType){
-    console.log("decrease votes " + voteType);
-    return fetch("/billinfo/decreasevote/" + year + '/' + billId + '/' + voteType)
-        .then(res => {
-           return res.json();
-       })
-       .then(body => {
-            var tempArray = [body.happyVotes, body.mehVotes, body.angryVotes];
-            console.log(tempArray);
-            this.setState({
-                bVotes: tempArray
-            });
-       })
-       .catch(err => {
-           console.error(err);
-       });
-   }
+//    updateDownVotes(year, billId, voteType){
+//     console.log("decrease votes " + voteType);
+//     return fetch("/billinfo/decreasevote/" + year + '/' + billId + '/' + voteType)
+//         .then(res => {
+//            return res.json();
+//        })
+//        .then(body => {
+//             var votes = [body.happyVotes, body.mehVotes, body.angryVotes];
+//             console.log(votes);
+//             this.setState({
+//                 bVotes: votes
+//             });
+//        })
+//        .catch(err => {
+//            console.error(err);
+//        });
+//    }
+
+    setFilter(filter) {
+        console.log("FILTER: " + filter);
+        this.setState({
+            selected: filter
+        });
+        if (filter === 'happy') {
+            this.addHappyVote();
+        } else if (filter === 'angry') {
+            this.addAngryVote();
+        } else if (filter === 'meh') {
+            this.addMehVote();
+        }
+    }
+
+    isActive(filter) {
+        return "btn-flat waves-effect waves-light " + ((filter === this.state.selected) ? ' indigo' : '');
+    }
 
     render() {
         return (
             <div className="container">
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
                 <h4>{this.state.bId}</h4>
                 <h5>{this.state.bName}</h5>
                 <h6>{this.state.year}</h6>
                 <h6>{this.state.bDesc}</h6>
-                <a target="_blank" href={this.state.bLink}>
-                <font size="3">
-                    See this bill on the Utah Sate Legislature's web page.
-                </font>
-                </a>
+                <a target="_blank" href={this.state.bLink} style={fontSize}>See this bill on the Utah Sate Legislature's web page.</a>
                 <div className="container">
-                    <p className="flow-text">How do you feel about this bill?
-                    <a id="happyBtn" className="waves-effect waves-light btn-flat" onClick={this.addHappyVote}>😊</a>
-                    <a id="mehBtn" className="waves-effect waves-light btn-flat" onClick={this.addMehVote}>😕</a>
-                    <a id="angryBtn" className="waves-effect waves-light btn-flat" onClick={this.addAngryVote}>😠</a></p>
-                    <p style={fontSize}> This is how our users feel: 
-                        😊 {this.state.bVotes[0]} &nbsp;&nbsp; 
-                        😕 {this.state.bVotes[1]} &nbsp;&nbsp; 
-                        😠 {this.state.bVotes[2]}
-                    </p>
+                    <p className="flow-text">How do you feel about this bill?</p>
+                    <a id="happyBtn" className={this.isActive('happy')} onClick={this.setFilter.bind(this, 'happy')}><i className="material-icons">sentiment_very_satisfied</i></a>
+                    <a id="mehBtn" className={this.isActive('meh')} onClick={this.setFilter.bind(this, 'meh')}><i className="material-icons">sentiment_neutral</i></a>
+                    <a id="angryBtn" className={this.isActive('angry')} onClick={this.setFilter.bind(this, 'angry')}><i className="material-icons">sentiment_very_dissatisfied</i> </a>
+                    <p style={fontSize}> This is how our users feel:</p>
+                    <span><i className="material-icons">sentiment_very_satisfied</i> {this.state.billVotes.upVotes}</span>
+                    <span><i className="material-icons">sentiment_neutral</i> {this.state.billVotes.upVotes}</span>
+                    <span><i className="material-icons">sentiment_very_dissatisfied</i> {this.state.billVotes.downVotes}</span>
                 </div>
-                <div className="content" dangerouslySetInnerHTML={{__html: this.state.bText}}></div>
                 <p className={"flow-text"}>{this.state.bComments}</p>
                 <h5>Related Bills</h5>
                 <div className="divider"></div>
                 <div>
                     {this.state.relatedBills.map((result) =>
-                        <RelatedBills title={result.name} description={result.description} year={result.year} id={result.bill} />
+                        <RelatedBills key={result.name} title={result.name} description={result.description} year={result.year} id={result.bill} />
                     )}
                 </div>
             </div>

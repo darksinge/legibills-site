@@ -95,7 +95,7 @@ class SearchPage extends Component {
                 </div>
                 <div className="container">
                     {this.state.searchResults.map((result) =>
-                        <SearchResult title={result.name} description={result.description} year={result.year} id={result.bill} score={result.tf_idf} />
+                        <SearchResult key={result.bill} title={result.name} description={result.description} year={result.year} id={result.bill} score={result.tf_idf} />
                     )}
                 </div>
             </div>
