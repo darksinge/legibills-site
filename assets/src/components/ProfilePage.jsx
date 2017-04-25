@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Cookie from 'react-cookie';
 
-export class ProfilePage extends Component {
+class ProfilePage extends Component {
 
   constructor() {
     super();

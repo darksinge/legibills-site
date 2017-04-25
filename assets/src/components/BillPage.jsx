@@ -203,7 +203,7 @@ class BillPage extends Component {
     }
 
     isActive(filter) {
-        return "btn-flat waves-effect waves-light " + ((filter === this.state.selected) ? ' indigo' : '');
+        return "btn-flat btn-floating waves-effect waves-light " + ((filter === this.state.selected) ? ' green darken-3' : ' red lighten-1 ');
     }
 
     render() {
@@ -216,7 +216,7 @@ class BillPage extends Component {
                 <h6>{this.state.bDesc}</h6>
                 <a target="_blank" href={this.state.bLink} style={fontSize}>See this bill on the Utah Sate Legislature's web page.</a>
                 <div className="container">
-                    <p className="flow-text">How do you feel about this bill?</p>
+                    <span className="flow-text">How do you feel about this bill?</span>
                     <a id="happyBtn" className={this.isActive('happy')} onClick={this.setFilter.bind(this, 'happy')}><i className="material-icons">sentiment_very_satisfied</i></a>
                     <a id="mehBtn" className={this.isActive('meh')} onClick={this.setFilter.bind(this, 'meh')}><i className="material-icons">sentiment_neutral</i></a>
                     <a id="angryBtn" className={this.isActive('angry')} onClick={this.setFilter.bind(this, 'angry')}><i className="material-icons">sentiment_very_dissatisfied</i> </a>
@@ -225,7 +225,10 @@ class BillPage extends Component {
                     <span><i className="material-icons">sentiment_neutral</i> {this.state.billVotes.upVotes}</span>
                     <span><i className="material-icons">sentiment_very_dissatisfied</i> {this.state.billVotes.downVotes}</span>
                 </div>
-                <p className={"flow-text"}>{this.state.bComments}</p>
+
+                <div className="content" dangerouslySetInnerHTML={{__html: this.state.bText}} />
+
+                {/*<p className={"flow-text"}>{this.state.bComments}</p>*/}
                 <h5>Related Bills</h5>
                 <div className="divider"></div>
                 <div>

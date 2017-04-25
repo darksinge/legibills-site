@@ -37,4 +37,4 @@ class LoginPage extends Component {
     }
 }
 
-module.exports = LoginPage;
+export default LoginPage;
