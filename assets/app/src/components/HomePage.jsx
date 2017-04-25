@@ -4,9 +4,9 @@ var React = require('react');
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 var tmpImages = {
-    first: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQpZK55hgEWDWGK1B-jgB_omDOJDt9fDIWiSKzFtJg90xxUKVsH',
-    second: 'http://globalgenes.org/wp-content/uploads/2012/03/capitol_hill_washington_DC_lobbying.jpg',
-    third: 'https://i.imgflip.com/1idalc.jpg'
+    first: 'https://static.pexels.com/photos/8840/cold-beer-drops-freeze.jpg',
+    second: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Ru-camden-campus_walk.jpg',
+    third: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Dublin_Castle_Gates_of_Fortitude_and_Justice_05.JPG'
 }
 
 
