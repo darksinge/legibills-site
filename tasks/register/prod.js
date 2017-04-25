@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     'webpack:build',
     'compileAssets',
     'concat',
-    'uglify',
+    // 'uglify',
     'cssmin',
     'sails-linker:prodJs',
     'sails-linker:prodStyles',

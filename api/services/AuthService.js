@@ -33,6 +33,7 @@ module.exports = {
     }
 
     if (!authToken && req.params.jwt_token) authToken = req.params.jwt_token;
+    if (!authToken && req.cookies.jwt_token) authToken = req.cookies.jwt_token;
 
     if (!authToken) {
       return next(new Error('authorization token not found.'));
