@@ -32,16 +32,31 @@ module.exports = {
             via: 'bill'
         },
 
-        happyVotes: 'integer',
+        upvoteUsers: {
+            collection: 'user',
+            via: 'upvotes',
+            dominant: true
+        },
 
-        mehVotes: 'integer',
+        neutralvoteUsers: {
+            collection: 'user',
+            via: 'neutralvotes',
+            dominant: true
+        },
 
-        angryVotes: 'integer',
+        downvoteUsers: {
+            collection: 'user',
+            via: 'downvotes',
+            dominant: true
+        },
 
         toJSON: function(){
             var obj = this.toObject();
             delete obj.createdAt;
             delete obj.updatedAt;
+            // obj.upvotes = this.upvoteUsers.length || 0;
+            // obj.downvotes = this.downvoteUsers.length || 0;
+            // obj.neutralvoteUsers = this.name.length || 0;
             return obj;
         }
         

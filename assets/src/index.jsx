@@ -11,11 +11,11 @@ import HomePage from './components/HomePage.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import NotFound from './components/NotFound.jsx';
 import LoginPage from './components/LoginPage.jsx';
-// import Footer from './components/Footer.jsx';
 import SearchPage from './components/SearchPage.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import BillPage from './components/BillPage.jsx';
 import ListPage from './components/ListPage.jsx';
+import Footer from './components/Footer.jsx';
 
 var listStyle = {
     display: 'inline',
@@ -69,7 +69,7 @@ class AppRouter extends Component {
                 error: "Cannot authenticate!"
             });
         }
-        console.log('Cookie: ', jwt_token)
+
         var headers = this.headers;
         headers.Authorization = jwt_token;
         fetch('/api/profile', {
@@ -132,7 +132,6 @@ class AppRouter extends Component {
                         </div>
                     </nav>
                     <Switch className="main">
-                        
                         <Route exact path="/" component={HomePage} />
                         <Route path="/about" component={AboutPage} />
                         <Route path="/login" component={LoginPage} />

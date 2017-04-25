@@ -42,6 +42,21 @@ module.exports = {
       via: 'user'
     },
 
+    upvotes: {
+      collection: 'billinfo',
+      via: 'upvoteUsers'
+    },
+
+    downvotes: {
+      collection: 'billinfo',
+      via: 'downvoteUsers'
+    },
+
+    neutralvotes: {
+      collection: 'billinfo',
+      via: 'neutralvoteUsers'
+    },
+
     toJSON: function() {
       var obj = this.toObject();
       delete obj.facebookId;

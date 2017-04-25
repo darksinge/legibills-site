@@ -53,10 +53,12 @@ module.exports.routes = {
    'GET  /comment/:bill': 'CommentController.billComments',
    'POST /comment': 'CommentController.create',
 
-   // billinfo routes
+   // ------------------------
+   // BillInfo Routes
+   // ------------------------
    '/billinfo/:year/:id': 'BillInfoController.billInfo', 
-   '/billinfo/vote/:year/:id/:votetype': 'BillInfoController.vote',
-   '/billinfo/decreasevote/:year/:id/:votetype': 'BillInfoController.decreasevote',
-   '/billinfo/reset/:year/:id': 'BillInfoController.reset'
+   '/billinfo/upvote/:year/:name': 'BillInfoController.upvote',
+   '/billinfo/downvote/:year/:name': 'BillInfoController.downvote',
+   '/billinfo/neutralvote/:year/:name': 'BillInfoController.neutralvote'
 
 };

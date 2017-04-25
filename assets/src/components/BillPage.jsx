@@ -7,6 +7,21 @@ const fontSize = {
     fontSize: "10pt"
 }
 
+const icons = {
+    happy: {
+        black: '/images/icons/ic_sentiment_very_satisfied_black_36px.svg',
+        white: '/images/icons/ic_sentiment_very_satisfied_white_36px.svg'
+    },
+    neutral: {
+        black: '/images/icons/ic_sentiment_neutral_black_36px.svg',
+        white: '/images/icons/ic_sentiment_neutral_white_36px.svg'
+    },
+    sad: {
+        black: '/images/icons/ic_sentiment_very_dissatisfied_black_36px.svg',
+        white: '/images/icons/ic_sentiment_very_dissatisfied_white_36px.svg'
+    }
+}
+
 const now = new Date();
 
 class RelatedBills extends React.Component {
@@ -33,9 +48,9 @@ class BillPage extends Component {
             billId: "",
             billName: "",
             votes: {
-                upVotes: 0,
-                downVotes: 0,
-                mehVotes: 0
+                happy: 0,
+                sad: 0,
+                neutral: 0
             },
             billLink: "",
             text: "",
@@ -51,6 +66,7 @@ class BillPage extends Component {
 
         this.updateVotes = this.updateVotes.bind(this);
         this.isActive = this.isActive.bind(this);
+        this.isSelected = this.isSelected.bind(this);
 
         this.getBill(props);
     }
@@ -128,21 +144,21 @@ class BillPage extends Component {
 
    getVotes(year, billId){
     return fetch("/billinfo/" + year + '/' + billId)
-        .then(res => {
-           return res.json();
-       })
-       .then(body => {
-            this.setState({
-                votes: {
-                    upVotes: body.happyVotes,
-                    downVotes: body.angryVotes,
-                    mehVotes: body.mehVotes
-                }
-            });
-       })
-       .catch(err => {
-           console.error(err);
-       });
+    .then(res => {
+        return res.json();
+    })
+    .then(body => {
+        this.setState({
+            votes: {
+                happy: body.happyVotes || 0,
+                sad: body.angryVotes || 0,
+                neutral: body.mehVotes || 0
+            }
+        });
+    })
+    .catch(err => {
+        console.error(err);
+    });
    }
 
    updateVotes(year, billId, voteType){
@@ -154,9 +170,9 @@ class BillPage extends Component {
        .then(body => {
             this.setState({
                 votes: {
-                    upVotes: body.happyVotes,
-                    downVotes: body.angryVotes,
-                    mehVotes: body.mehVotes
+                    happy: body.happyVotes || 0,
+                    sad: body.angryVotes || 0,
+                    nuetral: body.mehVotes || 0
                 }
             });
        })
@@ -171,38 +187,50 @@ class BillPage extends Component {
         });
         if (filter === 'happy') {
             this.addHappyVote();
-        } else if (filter === 'angry') {
+        } else if (filter === 'sad') {
             this.addAngryVote();
-        } else if (filter === 'meh') {
+        } else if (filter === 'neutral') {
             this.addMehVote();
         }
     }
 
     isActive(filter) {
-        return "btn-flat btn-floating waves-effect waves-light " + ((filter === this.state.selected) ? ' green darken-3' : ' red lighten-1 ');
+        return "btn-floating btn-flat waves-effect waves-light " + ((filter === this.state.selected) ? ' green' : '');
+    }
+
+    isSelected(filter) {
+        return filter === this.state.selected ? 'chip green' : 'chip';
     }
 
     render() {
         return (
             <div className="container">
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <h4>{this.state.billId}</h4>
+                <h4>{this.state.billId}, {this.state.year}</h4>
                 <h5>{this.state.billName}</h5>
-                <h6>{this.state.year}</h6>
-                <p className="flow-text">{this.state.description}</p>
+                <div className="amber lighten-5 md-padding">
+                    <p className="flow-text">{this.state.description}</p>
+                </div>
                 <a target="_blank" href={this.state.billLink} style={fontSize}>See this bill on the Utah Sate Legislature's web page.</a>
                 <div className="container">
                     <span className="flow-text">How do you feel about this bill?</span>
-                    <a className={this.isActive('happy')} onClick={this.setFilter.bind(this, 'happy')}><i className="material-icons">sentiment_very_satisfied</i></a>
-                    <a className={this.isActive('meh')} onClick={this.setFilter.bind(this, 'meh')}><i className="material-icons">sentiment_neutral</i></a>
-                    <a className={this.isActive('angry')} onClick={this.setFilter.bind(this, 'angry')}><i className="material-icons">sentiment_very_dissatisfied</i> </a>
-                    <p style={fontSize}> This is how our users feel:</p>
-                    <span><i className="material-icons">sentiment_very_satisfied</i> {this.state.votes.upVotes}</span>
-                    <span><i className="material-icons">sentiment_neutral</i> {this.state.votes.upVotes}</span>
-                    <span><i className="material-icons">sentiment_very_dissatisfied</i> {this.state.votes.downVotes}</span>
+                    <div>
+                        <div className={this.isSelected('happy')}>
+                            <img className={this.isActive('happy')} src={icons.happy.black} onClick={this.setFilter.bind(this, 'happy')} />
+                            {this.state.votes.happy}
+                        </div>
+                        <div className={this.isSelected('neutral')}>
+                            <img className={this.isActive('neutral')} src={icons.neutral.black} onClick={this.setFilter.bind(this, 'neutral')} />
+                            {this.state.votes.neutral}
+                        </div>
+                        <div className={this.isSelected('sad')}>
+                            <img className={this.isActive('sad')} src={icons.sad.black} onClick={this.setFilter.bind(this, 'sad')} />
+                            {this.state.votes.sad}
+                        </div>
+                    </div>
                 </div>
 
-                <div className="content" dangerouslySetInnerHTML={{__html: this.state.text}} />
+                {/*<div className="content" dangerouslySetInnerHTML={{__html: this.state.text}} />*/}
 
                 <p className={"flow-text"}>{this.state.comments}</p>
                 <h5>Related Bills</h5>

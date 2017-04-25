@@ -1,134 +1,175 @@
 /**
- * `BillController.js`
- */
+* `BillController.js`
+*/
 
 module.exports = {
-
+	
 	billInfo: function(req, res){
 		var year = req.params.year;        
-    	var name = req.params.id;
+		var name = req.params.id;
+		
+		BillInfo.findOrCreate({
+			name: name,
+			year: year
+		},{
+			name: name,
+			year: year
+		}).exec(function(err, bill) {
+			if (err) {
+				sails.log.error(err);
+				return res.json({error: err.message});
+			}
+			
+			return res.json(bill.toJSON());        
+		});
+	},
+	
+	upvote: (req, res) => {
+		var name = req.params.name;
+		var year = req.params.year;
+		var user = req.user;
 
-    	BillInfo.findOrCreate({
-    		name: name,
-    		year: year
-    	},{
-    		name: name,
-	 		year: year,
-	 		happyVotes: 0,
-	 		mehVotes: 0,
-	 		angryVotes: 0
-    	}).exec(function(err, bill) {
-    		 if (err) {
-		        sails.log.error(err);
-		        return res.json({error: err.message});
-		      }
+		if (!user) return res.forbidden('user not logged in.');
 
-    		if (!bill) {
-    			console.log("bill not found.");
-    			return res.json("Bill not found.");        
-    		}            
+		BillInfo
+		.findOrCreate({name: name, year: year}, {name: name, year: year})
+		.populate('upvoteUsers')
+		.populate('downvoteUsers')
+		.populate('neutralvoteUsers')
+		.exec((err, bill) => {
+			if (err) return res.status(500).json({error: err.message});
+			if (!bill) return res.status(404).json({error: "bill not found"});
+			
+			bill.upvoteUsers.add(user.id);
+			bill.neutralvoteUsers.remove(user.id);
+			bill.downvoteUsers.remove(user.id);
 
-    		return res.json(bill.toJSON());        
-    	});
+			bill.save((err) => {
+				if (err) return res.status(500).json({error: err.message});
+				BillInfo.findOne({id: bill.id})
+				.populate('upvoteUsers')
+				.populate('downvoteUsers')
+				.populate('neutralvoteUsers')
+				.exec((err, bill) => {
+					return res.json({
+						id: bill.id,
+						name: bill.name,
+						year: bill.year,
+						upvotes: bill.upvoteUsers.length,
+						downvotes: bill.downvoteUsers.length,
+						neutralVotes: bill.neutralvoteUsers.length
+					});
+				});
+			});
+		});
 	},
 
-    vote: function(req, res) {        
-    	var year = req.params.year;        
-    	var name = req.params.id;
-    	var voteType = req.params.votetype;
-    	BillInfo.findOne({
-    		name: name,
-    		year: year
-    	}).exec(function(err, bill) {
-    		 if (err) {
-		        sails.log.error(err);
-		        return res.json({error: err.message});
-		      }
+	downvote: (req, res) => {
+		var name = req.params.name;
+		var year = req.params.year;
+		var user = req.user;
 
-    		if (!bill) {
-    			return res.json("Bill not found.");        
-    		}
+		if (!user) return res.forbidden('user not logged in.');
 
-    		console.log("increase "+voteType);
+		BillInfo
+		.findOne({name: name, year: year})
+		.populate('upvoteUsers')
+		.populate('downvoteUsers')
+		.populate('neutralvoteUsers')
+		.exec((err, bill) => {
+			if (err) return res.status(500).json({error: err.message});
+			if (!bill) return res.status(404).json({error: "bill not found"});
 
-    		if(voteType == "happy"){
-    			bill.happyVotes++;
-    		}else if(voteType == "meh"){
-    			bill.mehVotes++;
-    		}else if(voteType == "angry"){
-    			bill.angryVotes++;
-    		}
+			bill.upvoteUsers.remove(user.id);
+			bill.neutralvoteUsers.remove(user.id);
+			bill.downvoteUsers.add(user.id);
+			
+			bill.save((err) => {
+				if (err) return res.status(500).json({error: err.message});
+				BillInfo.findOne({id: bill.id})
+				.populate('upvoteUsers')
+				.populate('downvoteUsers')
+				.populate('neutralvoteUsers')
+				.exec((err, bill) => {
+					return res.json({
+						id: bill.id,
+						name: bill.name,
+						year: bill.year,
+						upvotes: bill.upvoteUsers.length,
+						downvotes: bill.downvoteUsers.length,
+						neutralVotes: bill.neutralvoteUsers.length
+					});
+				});
+			});
+		});
+	},
 
-    		bill.save(function(err) {            
-    			if (err) sails.log.error(err);            
-    		});
+	neutralvote: (req, res) => {
+		var name = req.params.name;
+		var year = req.params.year;
+		var user = req.user;
 
-    		return res.json(bill.toJSON());        
-    	});   
-    },
+		if (!user) return res.forbidden('user not logged in.');
 
-    decreasevote: function(req, res) {        
-    	var year = req.params.year;        
-    	var name = req.params.id;
-    	var voteType = req.params.votetype;
-    	BillInfo.findOne({
-    		name: name,
-    		year: year
-    	}).exec(function(err, bill) {
-    		 if (err) {
-		        sails.log.error(err);
-		        return res.json({error: err.message});
-		      }
+		BillInfo
+		.findOne({name: name, year: year})
+		.populate('upvoteUsers')
+		.populate('downvoteUsers')
+		.populate('neutralvoteUsers')
+		.exec((err, bill) => {
+			if (err) return res.status(500).json({error: err.message});
+			if (!bill) return res.status(404).json({error: "bill not found"});
 
-    		if (!bill) {
-    			return res.json("Bill not found.");        
-    		}
+			bill.upvoteUsers.remove(user.id);
+			bill.neutralvoteUsers.add(user.id);
+			bill.downvoteUsers.remove(user.id);
 
-
-    		if(voteType == "happy"){
-    			bill.happyVotes--;
-    		}else if(voteType == "meh"){
-    			bill.mehVotes--;
-    		}else if(voteType == "angry"){
-    			bill.angryVotes--;
-    		}
-
-    		console.log("decrease "+voteType);
-
-    		bill.save(function(err) {            
-    			if (err) sails.log.error(err);            
-    		});
-
-    		return res.json(bill.toJSON());        
-    	});   
-    },
-
-    reset: function(req, res){
+			bill.save((err) => {
+				if (err) return res.status(500).json({error: err.message});
+				BillInfo.findOne({id: bill.id})
+				.populate('upvoteUsers')
+				.populate('downvoteUsers')
+				.populate('neutralvoteUsers')
+				.exec((err, bill) => {
+					return res.json({
+						id: bill.id,
+						name: bill.name,
+						year: bill.year,
+						upvotes: bill.upvoteUsers.length,
+						downvotes: bill.downvoteUsers.length,
+						neutralVotes: bill.neutralvoteUsers.length
+					});
+				});
+			});
+		});
+	},
+	
+	reset: function(req, res){
 		var year = req.params.year;        
-    	var name = req.params.id;
-
-    	BillInfo.findOne({
-    		name: name,
-    		year: year
-    	}).exec(function(err, bill) {
-    		 if (err) {
-		        sails.log.error(err);
-		        return res.json({error: err.message});
-		      }
-
-    		if (!bill) {
-    			return res.json("Bill not found.");        
-    		}            
-
-    		bill.happyVotes = 0;
-	 		bill.mehVotes = 0;
-	 		bill.angryVotes = 0;
-
-	 		bill.save(function(err) {            
-    			if (err) sails.log.error(err);            
-    		});
-
-    		return res.json(bill.toJSON());        
-    	});
+		var name = req.params.id;
+		
+		BillInfo.findOne({
+			name: name,
+			year: year
+		}).exec(function(err, bill) {
+			if (err) {
+				sails.log.error(err);
+				return res.json({error: err.message});
+			}
+			
+			if (!bill) {
+				return res.json("Bill not found.");        
+			}            
+			
+			bill.happyVotes = 0;
+			bill.mehVotes = 0;
+			bill.angryVotes = 0;
+			
+			bill.save(function(err) {            
+				if (err) sails.log.error(err);            
+			});
+			
+			return res.json(bill.toJSON());        
+		});
 	}
 };

@@ -7,14 +7,14 @@ let bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-let jwt_secret = sails.config.jwt.jwt_secret;
+const jwtSecret = sails.config.jwt.jwtSecret;
 
 module.exports = {
   
   generateToken: (user) => {
     if (user.toJSON) user = user.toJSON();
     
-    var token = jwt.sign({user: user}, jwt_secret);
+    var token = jwt.sign({user: user}, jwtSecret);
     
     var encodedToken = bcrypt.hashSync(token, saltRounds);
     
@@ -40,7 +40,7 @@ module.exports = {
     }
 
     try {
-      var decoded = jwt.verify(authToken, process.env.JWT_SECRET_RMB || 'keyboard cats');
+      var decoded = jwt.verify(authToken, jwtSecret);
     } catch (e) {
       return next(e, null);
     }

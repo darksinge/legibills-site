@@ -4,5 +4,5 @@
  */
 
 module.exports.jwt = {
-    jwt_secret: process.env.JWT_SECRET_RMB
+    jwtSecret: process.env.JWT_SECRET_RMB || 'keyboard cats'
 };

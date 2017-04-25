@@ -35,14 +35,17 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
   CommentController: {
-
-    // TODO: Fix this horrible security concern
-    '*': true
-    
+    '*': ['sessionAuth']
   },
 
   UserController: {
     '*': ['sessionAuth']
+  },
+
+  BillInfoController: {
+    'upvote': ['sessionAuth'],
+    'downvote': ['sessionAuth'],
+    'neutralvote': ['sessionAuth']
   }
 	// RabbitController: {
 

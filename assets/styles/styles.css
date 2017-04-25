@@ -15,3 +15,15 @@ main {
 a.force-hover:hover {
     cursor: pointer !important;
 }
+.md-padding {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.md-padding p {
+    margin: 0;
+}
+.md-margin {
+    margin: 8px;
+}
