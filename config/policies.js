@@ -35,7 +35,10 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
   CommentController: {
-    '*': false
+
+    // TODO: Fix this horrible security concern
+    '*': true
+    
   },
 
   UserController: {

@@ -40,8 +40,8 @@
 ################################################
 
 config/local.js
-.vscode/
-.sass-cache/
+.vscode
+.sass-cache
 
 
 
