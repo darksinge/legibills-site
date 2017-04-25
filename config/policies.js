@@ -45,7 +45,8 @@ module.exports.policies = {
   BillInfoController: {
     'upvote': ['sessionAuth'],
     'downvote': ['sessionAuth'],
-    'neutralvote': ['sessionAuth']
+    'neutralvote': ['sessionAuth'],
+    'findOne': true
   }
 	// RabbitController: {
 

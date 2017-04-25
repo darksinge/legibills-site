@@ -56,7 +56,7 @@ module.exports.routes = {
    // ------------------------
    // BillInfo Routes
    // ------------------------
-   '/billinfo/:year/:id': 'BillInfoController.billInfo', 
+   '/billinfo/:year/:name': 'BillInfoController.findOne', 
    '/billinfo/upvote/:year/:name': 'BillInfoController.upvote',
    '/billinfo/downvote/:year/:name': 'BillInfoController.downvote',
    '/billinfo/neutralvote/:year/:name': 'BillInfoController.neutralvote'

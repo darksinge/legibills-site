@@ -4,26 +4,27 @@
 
 module.exports = {
 	
-	billInfo: function(req, res){
-		var year = req.params.year;        
-		var name = req.params.id;
-		
-		BillInfo.findOrCreate({
-			name: name,
-			year: year
-		},{
-			name: name,
-			year: year
-		}).exec(function(err, bill) {
-			if (err) {
-				sails.log.error(err);
-				return res.json({error: err.message});
-			}
-			
-			return res.json(bill.toJSON());        
+	findOne: (req, res) => {
+		var year = req.params.year;
+		var name = req.params.name;
+
+		BillInfo.findOrCreate({year: year, name: name}, {year: year, name: name})
+		.populate('upvoteUsers')
+		.populate('downvoteUsers')
+		.populate('neutralvoteUsers')
+		.exec((err, bill) => {
+			if (err) return res.status(500).json({error: err.message});
+			return res.json({
+				id: bill.id,
+				name: bill.name,
+				year: bill.year,
+				upvotes: bill.upvoteUsers.length,
+				downvotes: bill.downvoteUsers.length,
+				neutralVotes: bill.neutralvoteUsers.length
+			});
 		});
 	},
-	
+
 	upvote: (req, res) => {
 		var name = req.params.name;
 		var year = req.params.year;
@@ -142,34 +143,6 @@ module.exports = {
 				});
 			});
 		});
-	},
-	
-	reset: function(req, res){
-		var year = req.params.year;        
-		var name = req.params.id;
-		
-		BillInfo.findOne({
-			name: name,
-			year: year
-		}).exec(function(err, bill) {
-			if (err) {
-				sails.log.error(err);
-				return res.json({error: err.message});
-			}
-			
-			if (!bill) {
-				return res.json("Bill not found.");        
-			}            
-			
-			bill.happyVotes = 0;
-			bill.mehVotes = 0;
-			bill.angryVotes = 0;
-			
-			bill.save(function(err) {            
-				if (err) sails.log.error(err);            
-			});
-			
-			return res.json(bill.toJSON());        
-		});
 	}
+
 };

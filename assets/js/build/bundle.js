@@ -11554,6 +11554,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(21);
 
+var _reactCookie = __webpack_require__(62);
+
+var _reactCookie2 = _interopRequireDefault(_reactCookie);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11639,7 +11643,7 @@ var BillPage = function (_Component) {
     function BillPage(props) {
         _classCallCheck(this, BillPage);
 
-        var _this2 = _possibleConstructorReturn(this, (BillPage.__proto__ || Object.getPrototypeOf(BillPage)).call(this));
+        var _this2 = _possibleConstructorReturn(this, (BillPage.__proto__ || Object.getPrototypeOf(BillPage)).call(this, props));
 
         _this2.state = {
             billId: "",
@@ -11654,15 +11658,16 @@ var BillPage = function (_Component) {
             description: "",
             comments: "",
             year: now.getFullYear(),
-            relatedBills: []
+            relatedBills: [],
+            voteErrorMessage: ""
         };
-        _this2.addHappyVote = _this2.addHappyVote.bind(_this2);
-        _this2.addMehVote = _this2.addMehVote.bind(_this2);
-        _this2.addAngryVote = _this2.addAngryVote.bind(_this2);
-        _this2.getBill = _this2.getBill.bind(_this2);
 
-        _this2.updateVotes = _this2.updateVotes.bind(_this2);
-        _this2.isActive = _this2.isActive.bind(_this2);
+        _this2.submitVote = _this2.submitVote.bind(_this2);
+        _this2.getBill = _this2.getBill.bind(_this2);
+        _this2.getBillText = _this2.getBillText.bind(_this2);
+        _this2.getRelatedBills = _this2.getRelatedBills.bind(_this2);
+        _this2.getVotes = _this2.getVotes.bind(_this2);
+        _this2.setFilter = _this2.setFilter.bind(_this2);
         _this2.isSelected = _this2.isSelected.bind(_this2);
 
         _this2.getBill(props);
@@ -11670,32 +11675,17 @@ var BillPage = function (_Component) {
     }
 
     _createClass(BillPage, [{
-        key: 'addHappyVote',
-        value: function addHappyVote(event) {
-            this.updateVotes(this.state.year, this.state.billId, "happy");
-        }
-    }, {
-        key: 'addMehVote',
-        value: function addMehVote(event) {
-            this.updateVotes(this.state.year, this.state.billId, "meh");
-        }
-    }, {
-        key: 'addAngryVote',
-        value: function addAngryVote(event) {
-            this.updateVotes(this.state.year, this.state.billId, "angry");
-        }
-    }, {
         key: 'getBill',
         value: function getBill(props) {
             var _this3 = this;
 
             var location = props.location.pathname.split('/');
             var year = location[2];
-            var billId = location[3];
-            this.getRelatedBills(year, billId);
-            this.getVotes(year, billId);
-            this.getBillText(year, billId);
-            return fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + billId).then(function (res) {
+            var name = location[3];
+            this.getRelatedBills(year, name);
+            this.getVotes(year, name);
+            this.getBillText(year, name);
+            fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + name).then(function (res) {
                 return res.json();
             }).then(function (body) {
                 _this3.setState({
@@ -11711,10 +11701,10 @@ var BillPage = function (_Component) {
         }
     }, {
         key: 'getBillText',
-        value: function getBillText(year, billId) {
+        value: function getBillText(year, name) {
             var _this4 = this;
 
-            return fetch("https://ratemybill.com/engine/bill_text/" + year + '/' + billId).then(function (res) {
+            fetch("https://ratemybill.com/engine/bill_text/" + year + '/' + name).then(function (res) {
                 return res.json();
             }).then(function (body) {
                 var tempText = "";
@@ -11730,10 +11720,10 @@ var BillPage = function (_Component) {
         }
     }, {
         key: 'getRelatedBills',
-        value: function getRelatedBills(year, billId) {
+        value: function getRelatedBills(year, name) {
             var _this5 = this;
 
-            return fetch("https://ratemybill.com/engine/cluster/" + year + '/' + billId).then(function (res) {
+            fetch("https://ratemybill.com/engine/cluster/" + year + '/' + name).then(function (res) {
                 return res.json();
             }).then(function (body) {
                 _this5.setState({
@@ -11745,17 +11735,17 @@ var BillPage = function (_Component) {
         }
     }, {
         key: 'getVotes',
-        value: function getVotes(year, billId) {
+        value: function getVotes(year, name) {
             var _this6 = this;
 
-            return fetch("/billinfo/" + year + '/' + billId).then(function (res) {
+            fetch("/billinfo/" + year + '/' + name).then(function (res) {
                 return res.json();
-            }).then(function (body) {
+            }).then(function (bill) {
                 _this6.setState({
                     votes: {
-                        happy: body.happyVotes || 0,
-                        sad: body.angryVotes || 0,
-                        neutral: body.mehVotes || 0
+                        happy: bill.upvotes,
+                        sad: bill.downvotes,
+                        neutral: bill.neutralVotes
                     }
                 });
             }).catch(function (err) {
@@ -11763,19 +11753,33 @@ var BillPage = function (_Component) {
             });
         }
     }, {
-        key: 'updateVotes',
-        value: function updateVotes(year, billId, voteType) {
+        key: 'submitVote',
+        value: function submitVote(type) {
             var _this7 = this;
 
-            return fetch("/billinfo/vote/" + year + '/' + billId + '/' + voteType).then(function (res) {
+            console.log(type);
+            fetch('/billinfo/' + type + '/' + this.state.year + '/' + this.state.billId, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': _reactCookie2.default.load('jwt_token')
+                }
+            }).then(function (res) {
+                if (res.status === 403) {
+                    _this7.setState({
+                        voteErrorMessage: "You're not logged in"
+                    });
+                    return;
+                }
                 return res.json();
-            }).then(function (body) {
+            }).then(function (bill) {
                 _this7.setState({
                     votes: {
-                        happy: body.happyVotes || 0,
-                        sad: body.angryVotes || 0,
-                        nuetral: body.mehVotes || 0
-                    }
+                        happy: bill.upvotes,
+                        sad: bill.downvotes,
+                        neutral: bill.neutralVotes
+                    },
+                    selected: type
                 });
             }).catch(function (err) {
                 console.error(err);
@@ -11787,18 +11791,6 @@ var BillPage = function (_Component) {
             this.setState({
                 selected: filter
             });
-            if (filter === 'happy') {
-                this.addHappyVote();
-            } else if (filter === 'sad') {
-                this.addAngryVote();
-            } else if (filter === 'neutral') {
-                this.addMehVote();
-            }
-        }
-    }, {
-        key: 'isActive',
-        value: function isActive(filter) {
-            return "btn-floating btn-flat waves-effect waves-light " + (filter === this.state.selected ? ' green' : '');
         }
     }, {
         key: 'isSelected',
@@ -11808,6 +11800,8 @@ var BillPage = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this8 = this;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'container' },
@@ -11851,21 +11845,32 @@ var BillPage = function (_Component) {
                         null,
                         _react2.default.createElement(
                             'div',
-                            { className: this.isSelected('happy') },
-                            _react2.default.createElement('img', { className: this.isActive('happy'), src: icons.happy.black, onClick: this.setFilter.bind(this, 'happy') }),
+                            { className: this.isSelected('upvote') },
+                            _react2.default.createElement('img', { className: 'btn-floating btn-flat waves-effect waves-light', src: icons.happy.black, onClick: function onClick() {
+                                    return _this8.submitVote("upvote");
+                                } }),
                             this.state.votes.happy
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: this.isSelected('neutral') },
-                            _react2.default.createElement('img', { className: this.isActive('neutral'), src: icons.neutral.black, onClick: this.setFilter.bind(this, 'neutral') }),
+                            { className: this.isSelected('neutralvote') },
+                            _react2.default.createElement('img', { className: 'btn-floating btn-flat waves-effect waves-light', src: icons.neutral.black, onClick: function onClick() {
+                                    return _this8.submitVote("neutralvote");
+                                } }),
                             this.state.votes.neutral
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: this.isSelected('sad') },
-                            _react2.default.createElement('img', { className: this.isActive('sad'), src: icons.sad.black, onClick: this.setFilter.bind(this, 'sad') }),
+                            { className: this.isSelected('downvote') },
+                            _react2.default.createElement('img', { className: 'btn-floating btn-flat waves-effect waves-light', src: icons.sad.black, onClick: function onClick() {
+                                    return _this8.submitVote("downvote");
+                                } }),
                             this.state.votes.sad
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'red-text' },
+                            this.state.voteErrorMessage
                         )
                     )
                 ),

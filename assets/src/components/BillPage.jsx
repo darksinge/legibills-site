@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import Cookie from 'react-cookie'
 
 const billroute = "https://ratemybill.com/engine/bill_info/";
 
@@ -43,7 +44,7 @@ class RelatedBills extends React.Component {
 
 class BillPage extends Component {
     constructor(props) {
-        super()
+        super(props);
         this.state = {
             billId: "",
             billName: "",
@@ -57,40 +58,29 @@ class BillPage extends Component {
             description: "",
             comments: "",
             year: now.getFullYear(),
-            relatedBills: []
+            relatedBills: [],
+            voteErrorMessage: ""
         }
-        this.addHappyVote = this.addHappyVote.bind(this);
-        this.addMehVote = this.addMehVote.bind(this);
-        this.addAngryVote = this.addAngryVote.bind(this);
-        this.getBill = this.getBill.bind(this);
 
-        this.updateVotes = this.updateVotes.bind(this);
-        this.isActive = this.isActive.bind(this);
+        this.submitVote = this.submitVote.bind(this);
+        this.getBill = this.getBill.bind(this);
+        this.getBillText = this.getBillText.bind(this);
+        this.getRelatedBills = this.getRelatedBills.bind(this);
+        this.getVotes = this.getVotes.bind(this);
+        this.setFilter = this.setFilter.bind(this);
         this.isSelected = this.isSelected.bind(this);
 
         this.getBill(props);
     }
 
-    addHappyVote(event){
-        this.updateVotes(this.state.year, this.state.billId, "happy");
-    }
-
-    addMehVote(event){
-        this.updateVotes(this.state.year, this.state.billId, "meh");
-    }
-
-    addAngryVote(event){
-        this.updateVotes(this.state.year, this.state.billId, "angry");
-    }
-
     getBill(props) {
        let location = props.location.pathname.split('/');
        const year = location[2];
-       const billId = location[3];
-       this.getRelatedBills(year, billId);
-       this.getVotes(year, billId);
-       this.getBillText(year, billId);
-       return fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + billId)
+       const name = location[3];
+       this.getRelatedBills(year, name);
+       this.getVotes(year, name);
+       this.getBillText(year, name);
+       fetch("https://ratemybill.com/engine/bill_info/" + year + '/' + name)
        .then(res => {
            return res.json();
        })
@@ -108,8 +98,8 @@ class BillPage extends Component {
        });
    }
 
-   getBillText(year, billId){
-    return fetch("https://ratemybill.com/engine/bill_text/" + year + '/' + billId)
+   getBillText(year, name){
+    fetch("https://ratemybill.com/engine/bill_text/" + year + '/' + name)
        .then(res => {
            return res.json();
        })
@@ -127,8 +117,8 @@ class BillPage extends Component {
        });
    }
 
-   getRelatedBills(year, billId){
-    return fetch("https://ratemybill.com/engine/cluster/" + year + '/' + billId)
+   getRelatedBills(year, name){
+    fetch("https://ratemybill.com/engine/cluster/" + year + '/' + name)
        .then(res => {
            return res.json();
        })
@@ -142,42 +132,55 @@ class BillPage extends Component {
        });
    }
 
-   getVotes(year, billId){
-    return fetch("/billinfo/" + year + '/' + billId)
-    .then(res => {
-        return res.json();
-    })
-    .then(body => {
-        this.setState({
-            votes: {
-                happy: body.happyVotes || 0,
-                sad: body.angryVotes || 0,
-                neutral: body.mehVotes || 0
-            }
-        });
-    })
-    .catch(err => {
-        console.error(err);
-    });
-   }
-
-   updateVotes(year, billId, voteType){
-    
-    return fetch("/billinfo/vote/" + year + '/' + billId + '/' + voteType)
+    getVotes(year, name){
+        fetch("/billinfo/" + year + '/' + name)
         .then(res => {
-           return res.json();
-       })
-       .then(body => {
+            return res.json();
+        })
+        .then(bill => {
             this.setState({
                 votes: {
-                    happy: body.happyVotes || 0,
-                    sad: body.angryVotes || 0,
-                    nuetral: body.mehVotes || 0
+                    happy: bill.upvotes,
+                    sad: bill.downvotes,
+                    neutral: bill.neutralVotes
                 }
             });
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }
+
+   submitVote(type) {
+       console.log(type);
+       fetch('/billinfo/' + type + '/' + this.state.year + '/' + this.state.billId, {
+           headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': Cookie.load('jwt_token')
+           }
+       })
+       .then(res => {
+           if (res.status === 403) {
+                this.setState({
+                    voteErrorMessage: "You're not logged in"
+                });
+                return;
+           }
+           return res.json();
+       })
+       .then(bill => {
+           this.setState({
+                votes: {
+                    happy: bill.upvotes,
+                    sad: bill.downvotes,
+                    neutral: bill.neutralVotes
+                },
+                selected: type
+           });
        })
        .catch(err => {
-           console.error(err);
+            console.error(err);
        });
    }
 
@@ -185,17 +188,6 @@ class BillPage extends Component {
         this.setState({
             selected: filter
         });
-        if (filter === 'happy') {
-            this.addHappyVote();
-        } else if (filter === 'sad') {
-            this.addAngryVote();
-        } else if (filter === 'neutral') {
-            this.addMehVote();
-        }
-    }
-
-    isActive(filter) {
-        return "btn-floating btn-flat waves-effect waves-light " + ((filter === this.state.selected) ? ' green' : '');
     }
 
     isSelected(filter) {
@@ -215,18 +207,19 @@ class BillPage extends Component {
                 <div className="container">
                     <span className="flow-text">How do you feel about this bill?</span>
                     <div>
-                        <div className={this.isSelected('happy')}>
-                            <img className={this.isActive('happy')} src={icons.happy.black} onClick={this.setFilter.bind(this, 'happy')} />
+                        <div className={this.isSelected('upvote')}>
+                            <img className="btn-floating btn-flat waves-effect waves-light" src={icons.happy.black} onClick={()=>this.submitVote("upvote")} />
                             {this.state.votes.happy}
                         </div>
-                        <div className={this.isSelected('neutral')}>
-                            <img className={this.isActive('neutral')} src={icons.neutral.black} onClick={this.setFilter.bind(this, 'neutral')} />
+                        <div className={this.isSelected('neutralvote')}>
+                            <img className="btn-floating btn-flat waves-effect waves-light" src={icons.neutral.black} onClick={()=>this.submitVote("neutralvote")} />
                             {this.state.votes.neutral}
                         </div>
-                        <div className={this.isSelected('sad')}>
-                            <img className={this.isActive('sad')} src={icons.sad.black} onClick={this.setFilter.bind(this, 'sad')} />
+                        <div className={this.isSelected('downvote')}>
+                            <img className="btn-floating btn-flat waves-effect waves-light" src={icons.sad.black} onClick={()=>this.submitVote("downvote")} />
                             {this.state.votes.sad}
                         </div>
+                        <span className="red-text">{this.state.voteErrorMessage}</span>
                     </div>
                 </div>
 
