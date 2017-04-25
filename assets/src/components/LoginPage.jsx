@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 var authRoute = process.env.NODE_ENV === 'development' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
     render() {
         return (
             <div className="container">

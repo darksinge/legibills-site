@@ -1,6 +1,6 @@
 
-var path = require('path');
-var React, { Component } = require('react');
+import path from 'path';
+import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 var tmpImages = {
@@ -10,7 +10,7 @@ var tmpImages = {
 }
 
 
-export class HomePage extends Component {
+class HomePage extends React.Component {
   render() {
     return (
     <div>
@@ -75,3 +75,5 @@ export class HomePage extends Component {
     );
   }
 };
+
+export default HomePage;

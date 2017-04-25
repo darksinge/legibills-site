@@ -1,8 +1,7 @@
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Text} from 'react-native-web';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 var history = createBrowserHistory();
@@ -11,7 +10,7 @@ import HomePage from './components/HomePage.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import NotFound from './components/NotFound.jsx';
 import LoginPage from './components/LoginPage.jsx';
-import Footer from './components/Footer.jsx';
+// import Footer from './components/Footer.jsx';
 import SearchPage from './components/SearchPage.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import BillPage from './components/BillPage.jsx';
@@ -37,7 +36,7 @@ var links = pages.map((value) => {
 
 links = <ul>{links}</ul>;
 
-export class AppRouter extends Component {
+class AppRouter extends Component {
     render() {
         return (
             <Router history={history}>
@@ -47,10 +46,10 @@ export class AppRouter extends Component {
                             <div className="nav-wrapper" >
                                 <a href={"/"} className="brand-logo">RateMyBill</a>
                                 <ul id="nav-mobile" className="right hide-on-med-and-down">
-                                    <li><Link to='/' className="">Home</Link></li>
-                                    <li><Link to='/search' className="">Search</Link></li>
-                                    <li><Link to='/about' className="">About</Link></li>
-                                    <li><Link to='/login' className="">Login</Link></li>
+                                    <li><Link to='/'>Home</Link></li>
+                                    <li><Link to='/search'>Search</Link></li>
+                                    <li><Link to='/about'>About</Link></li>
+                                    <li><Link to='/login'>Login</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -69,6 +68,8 @@ export class AppRouter extends Component {
             </Router>
         );
     }
-};
+}
 
 ReactDOM.render(<AppRouter/>, document.getElementById('app'));
+
+export default AppRouter;

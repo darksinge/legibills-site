@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 var data = typeof data !== 'undefined' ? <code>{data}</code> : <p>A team of highly trained *cough* college students are working on the problem, or taking a nap.<br/> If the problem persists, please go cry about it until something is done to fix the issue.</p>
 
@@ -10,7 +10,7 @@ var error = (
 </div>
 )
 
-class InternalErrorPage extends React.Component {
+class InternalErrorPage extends Component {
   render() {
     return error; 
   }

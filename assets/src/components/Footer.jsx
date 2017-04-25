@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export class Footer extends React.Component {
+export class Footer extends Component {
     render() {
         return(
             <footer className="page-footer">

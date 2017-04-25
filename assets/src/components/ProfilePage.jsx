@@ -1,9 +1,7 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import Cookie from 'react-cookie';
 
-export class ProfilePage extends React.Component {
+export class ProfilePage extends Component {
 
   constructor() {
     super();
@@ -173,3 +171,5 @@ export class ProfilePage extends React.Component {
     );
   }
 }
+
+export default ProfilePage;
