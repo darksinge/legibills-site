@@ -46,6 +46,21 @@ class SearchPage extends Component {
 
     _handleKeyPress(e) {
         if (e.key == "Enter") {
+            if (this.state.query === "") {
+                this.setState({
+                    searchResults: [
+                        {
+                            bill: "",
+                            title: "",
+                            name: "Your search returned no results",
+                            description: "none",
+                            year: 0,
+                            id: "",
+                            score: 0
+                        }
+                    ]
+                });
+            }
             this.onSearch(e);
         }
     }
@@ -55,15 +70,28 @@ class SearchPage extends Component {
         .then((res) => {
             res.json()
             .then(body => {
-                var tempSearchResults = []
+                var results = []
                 Object.keys(body).forEach(function(key) {
-                    tempSearchResults.push(body[key])
+                    results.push(body[key])
                 });
-                tempSearchResults.sort(function(a, b) {
+                results.sort(function(a, b) {
                     return parseFloat(a.tf_idf) < parseFloat(b.tf_idf);
                 });
+                if (Object.keys(body).length === 0) {
+                    results = [
+                        {
+                            bill: "",
+                            title: "",
+                            name: "Your search returned no results",
+                            description: "none",
+                            year: 0,
+                            id: "",
+                            score: 0
+                        }
+                    ]
+                }
                 this.setState({
-                    searchResults: tempSearchResults
+                    searchResults: results
                 });
             });
         })
@@ -87,10 +115,10 @@ class SearchPage extends Component {
                 <div className="row">
                     <div className="col s12 m9 offset-m3 l8 offset-l2">
                         <div className="input-field">
-                            <input id="search" type="text" value={this.state.query} onChange={this.onSearchInputChange} />
+                            <input id="search" type="text" value={this.state.query} onKeyPress={this._handleKeyPress} onChange={this.onSearchInputChange} />
                             <label htmlFor="search"><i className="sm material-icons">search</i></label>
                         </div>
-                        <a className="waves-effect waves-light btn" onClick={this.onSearch} onKeyUp={this._handleKeyPress}>Search</a>
+                        <button className="waves-effect waves-light btn" onClick={this.onSearch}>Search</button>
                     </div>
                 </div>
                 <div className="container">
