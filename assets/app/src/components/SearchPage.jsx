@@ -19,7 +19,7 @@ class SearchPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            query: "Enter search here",
+            query: "",
             searchResults: [],
             err: ''
         }

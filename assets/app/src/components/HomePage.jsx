@@ -44,7 +44,7 @@ var HomePage = React.createClass({
           </div>
         </div>
         </Link>
-        <Link to="/bill/2017/HB0098">
+        <Link to="/bill/2017/HB0054">
           <div className="col s12 m12 l4">
             <div className="card horizontal hoverable feature-card">
               <div className="card-image">
@@ -52,8 +52,8 @@ var HomePage = React.createClass({
               </div>
               <div className="card-stacked">
                 <div className="card-content">
-                  <span className="card-title">Department Of Administrative Services</span>
-                  <p className="">Bill modifies and repeals provisions related to the Department of Administrative Services and funds administered by the Division of Finance.</p>
+                  <span className="card-title">Campus Free Speech Amendments</span>
+                  <p className="">Bill enacts provisions related to expressive activity at an institution of higher education.</p>
                 </div>
               </div>
             </div>

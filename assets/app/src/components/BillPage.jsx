@@ -11,7 +11,7 @@ class RelatedBills extends React.Component {
     render() {
         return (
             <div>
-                <Link target="_self" to={'/bill/' + this.props.year + '/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
+                <Link to={'/bill/' + this.props.year + '/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
                 <p><b>description:</b> {this.props.description}</p>
                 <div className="divider"></div>
             </div>
@@ -37,8 +37,12 @@ class BillPage extends React.Component {
         this.addMehVote = this.addMehVote.bind(this);
         this.addAngryVote = this.addAngryVote.bind(this);
         this.unclickButtons = this.unclickButtons.bind(this);
+        this.getBill = this.getBill.bind(this);
+    }
 
-        this.getBill(props);
+    componentDidMount(){
+        console.log("didMount");
+        this.getBill(this.props);
     }
 
     addHappyVote(event){
