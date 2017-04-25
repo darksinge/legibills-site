@@ -49,6 +49,7 @@ class AppRouter extends Component {
                                     <li><Link to='/'>Home</Link></li>
                                     <li><Link to='/search'>Search</Link></li>
                                     <li><Link to='/about'>About</Link></li>
+                                    <li><Link to="/list">Bill List</Link></li>
                                     <li><Link to='/login'>Login</Link></li>
                                 </ul>
                             </div>
