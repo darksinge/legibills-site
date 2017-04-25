@@ -39,6 +39,7 @@ module.exports.routes = {
    // ------------------------
   'GET /profile': 'UserController.index',
   'GET /api/profile': 'UserController.profileJSON',
+  '/logout': 'UserController.logout',
 
    // ------------------------
    // AuthController routes

@@ -12,6 +12,7 @@ function print(text, args) {
 var passport = require('passport');
 
 module.exports = {
+
   index: (req, res) => {
     if (req.user) {
       return res.view('homepage');
@@ -41,6 +42,15 @@ module.exports = {
     });
 
 
+  },
+
+  logout: (req, res) => {
+    res.clearCookie('jwt_token');
+    delete req.headers.authorization;
+    if (req.logout) {
+      req.logout();
+    }
+    return res.redirect('/');
   }
 
 };

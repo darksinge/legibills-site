@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import billsJson from '../dev/billsJson';
+import sampleBills from '../dev/billsJson';
 
 
 const listRoute = "https://ratemybill.com/engine/list/";
@@ -29,7 +29,7 @@ class ListPage extends Component {
         
         this.state = {
             data: [],
-            bills: billsJson,
+            bills: [],
             offset: 0,
             year: now.getFullYear()
         }
@@ -40,11 +40,10 @@ class ListPage extends Component {
         this.getBillListFromServer();
     }
 
-    getBillListFromServer(event) {
+    getBillListFromServer() {
         return fetch(listRoute + this.state.year)
         .then((res) => {
             return res.json();
-            
         })
         .then(body => {
             var bills = [];
@@ -62,9 +61,8 @@ class ListPage extends Component {
         .catch((err) => {
             if (err.toString) err = err.toString();
             this.setState({
-                bills: billsJson,
-                data: billsJson.slice(0, perPage),
-                pageCount: Math.ceil(this.state.bills.length/perPage)
+                data: sampleBills.slice(0, 25),
+                bills: sampleBills
             });
             console.error(err);
         });

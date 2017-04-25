@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-// import $ from 'jquery';
 
 const billroute = "https://ratemybill.com/engine/bill_info/";
 
 const fontSize = {
     fontSize: "10pt"
 }
+
+const now = new Date();
 
 class RelatedBills extends React.Component {
     render() {
@@ -29,19 +30,18 @@ class BillPage extends Component {
     constructor(props) {
         super()
         this.state = {
-            bId: "HB000",
-            bName: "Bill Name",
-            // bVotes: [0,0,0],
-            billVotes: {
+            billId: "",
+            billName: "",
+            votes: {
                 upVotes: 0,
                 downVotes: 0,
                 mehVotes: 0
             },
-            bLink: "https://le.utah.gov/~2017/bills/static/HB0001.html",
-            bText: "This is where bill text will be.",
-            bDesc: "This is the bill's description",
-            bComments: "This is where comments will go.",
-            year: 2017,
+            billLink: "",
+            text: "",
+            description: "",
+            comments: "",
+            year: now.getFullYear(),
             relatedBills: []
         }
         this.addHappyVote = this.addHappyVote.bind(this);
@@ -51,21 +51,20 @@ class BillPage extends Component {
 
         this.updateVotes = this.updateVotes.bind(this);
         this.isActive = this.isActive.bind(this);
-        // this.setFilter = this.setFilter.bind(this);
 
         this.getBill(props);
     }
 
     addHappyVote(event){
-        this.updateVotes(this.state.year, this.state.bId, "happy");
+        this.updateVotes(this.state.year, this.state.billId, "happy");
     }
 
     addMehVote(event){
-        this.updateVotes(this.state.year, this.state.bId, "meh");
+        this.updateVotes(this.state.year, this.state.billId, "meh");
     }
 
     addAngryVote(event){
-        this.updateVotes(this.state.year, this.state.bId, "angry");
+        this.updateVotes(this.state.year, this.state.billId, "angry");
     }
 
     getBill(props) {
@@ -81,10 +80,10 @@ class BillPage extends Component {
        })
        .then(body => {
             this.setState({
-                bId: body.bill,
-                bName: body.name,
-                bLink: body.link,
-                bDesc: body.description,
+                billId: body.bill,
+                billName: body.name,
+                billLink: body.link,
+                description: body.description,
                 year: body.year
             });
        })
@@ -104,7 +103,7 @@ class BillPage extends Component {
                 tempText = body[key];
             });
             this.setState({
-                bText: tempText
+                text: tempText
             });
        })
        .catch(err => {
@@ -133,9 +132,8 @@ class BillPage extends Component {
            return res.json();
        })
        .then(body => {
-           console.log('VOTES: ', body);
             this.setState({
-                billVotes: {
+                votes: {
                     upVotes: body.happyVotes,
                     downVotes: body.angryVotes,
                     mehVotes: body.mehVotes
@@ -148,17 +146,14 @@ class BillPage extends Component {
    }
 
    updateVotes(year, billId, voteType){
-    console.log("increase votes " + voteType);
+    
     return fetch("/billinfo/vote/" + year + '/' + billId + '/' + voteType)
         .then(res => {
            return res.json();
        })
        .then(body => {
-            // var votes = [body.happyVotes, body.mehVotes, body.angryVotes];
-            // console.log(votes);
             this.setState({
-                // bVotes: votes
-                billVotes: {
+                votes: {
                     upVotes: body.happyVotes,
                     downVotes: body.angryVotes,
                     mehVotes: body.mehVotes
@@ -170,26 +165,7 @@ class BillPage extends Component {
        });
    }
 
-//    updateDownVotes(year, billId, voteType){
-//     console.log("decrease votes " + voteType);
-//     return fetch("/billinfo/decreasevote/" + year + '/' + billId + '/' + voteType)
-//         .then(res => {
-//            return res.json();
-//        })
-//        .then(body => {
-//             var votes = [body.happyVotes, body.mehVotes, body.angryVotes];
-//             console.log(votes);
-//             this.setState({
-//                 bVotes: votes
-//             });
-//        })
-//        .catch(err => {
-//            console.error(err);
-//        });
-//    }
-
     setFilter(filter) {
-        console.log("FILTER: " + filter);
         this.setState({
             selected: filter
         });
@@ -210,25 +186,25 @@ class BillPage extends Component {
         return (
             <div className="container">
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <h4>{this.state.bId}</h4>
-                <h5>{this.state.bName}</h5>
+                <h4>{this.state.billId}</h4>
+                <h5>{this.state.billName}</h5>
                 <h6>{this.state.year}</h6>
-                <h6>{this.state.bDesc}</h6>
-                <a target="_blank" href={this.state.bLink} style={fontSize}>See this bill on the Utah Sate Legislature's web page.</a>
+                <p className="flow-text">{this.state.description}</p>
+                <a target="_blank" href={this.state.billLink} style={fontSize}>See this bill on the Utah Sate Legislature's web page.</a>
                 <div className="container">
                     <span className="flow-text">How do you feel about this bill?</span>
-                    <a id="happyBtn" className={this.isActive('happy')} onClick={this.setFilter.bind(this, 'happy')}><i className="material-icons">sentiment_very_satisfied</i></a>
-                    <a id="mehBtn" className={this.isActive('meh')} onClick={this.setFilter.bind(this, 'meh')}><i className="material-icons">sentiment_neutral</i></a>
-                    <a id="angryBtn" className={this.isActive('angry')} onClick={this.setFilter.bind(this, 'angry')}><i className="material-icons">sentiment_very_dissatisfied</i> </a>
+                    <a className={this.isActive('happy')} onClick={this.setFilter.bind(this, 'happy')}><i className="material-icons">sentiment_very_satisfied</i></a>
+                    <a className={this.isActive('meh')} onClick={this.setFilter.bind(this, 'meh')}><i className="material-icons">sentiment_neutral</i></a>
+                    <a className={this.isActive('angry')} onClick={this.setFilter.bind(this, 'angry')}><i className="material-icons">sentiment_very_dissatisfied</i> </a>
                     <p style={fontSize}> This is how our users feel:</p>
-                    <span><i className="material-icons">sentiment_very_satisfied</i> {this.state.billVotes.upVotes}</span>
-                    <span><i className="material-icons">sentiment_neutral</i> {this.state.billVotes.upVotes}</span>
-                    <span><i className="material-icons">sentiment_very_dissatisfied</i> {this.state.billVotes.downVotes}</span>
+                    <span><i className="material-icons">sentiment_very_satisfied</i> {this.state.votes.upVotes}</span>
+                    <span><i className="material-icons">sentiment_neutral</i> {this.state.votes.upVotes}</span>
+                    <span><i className="material-icons">sentiment_very_dissatisfied</i> {this.state.votes.downVotes}</span>
                 </div>
 
-                <div className="content" dangerouslySetInnerHTML={{__html: this.state.bText}} />
+                <div className="content" dangerouslySetInnerHTML={{__html: this.state.text}} />
 
-                {/*<p className={"flow-text"}>{this.state.bComments}</p>*/}
+                <p className={"flow-text"}>{this.state.comments}</p>
                 <h5>Related Bills</h5>
                 <div className="divider"></div>
                 <div>
@@ -236,6 +212,7 @@ class BillPage extends Component {
                         <RelatedBills key={result.name} title={result.name} description={result.description} year={result.year} id={result.bill} />
                     )}
                 </div>
+                
             </div>
         )
     }

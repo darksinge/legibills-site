@@ -5,6 +5,7 @@
   "description": "Front end website for IR project, CS 4320, Spring 17, Utah State University.",
   "keywords": [],
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "connect-redis": "^3.2.0",
     "consolidate": "^0.14.5",
     "cookiejar": "^2.1.0",
@@ -33,6 +34,7 @@
     "react": "^15.5.4",
     "react-cookie": "^1.0.5",
     "react-dom": "^15.4.0",
+    "react-notify-toast": "^0.1.5",
     "react-paginate": "^4.3.1",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
