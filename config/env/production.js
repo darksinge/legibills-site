@@ -14,22 +14,22 @@ module.exports = {
 
   grunt: {
     _hookTimeout: 60 * 1000
-  }
+  },
 
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMysqlServer'
-  // },
+  models: {
+    connection: 'localMySqlServer'
+  },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  // port: 80,
+  port: 8080,
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *

@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom';
 
 var authRoute = process.env.NODE_ENV === 'development' ? "http://localhost:1337/oauth/facebook" : 'https://ratemybill.com/oauth/facebook';
 
+const imgStyle = {
+    height: "100%",
+    // width: "100%"
+}
+
 class LoginPage extends Component {
     render() {
         return (
@@ -23,13 +28,9 @@ class LoginPage extends Component {
                             </div>
                             <div className="card-action">
                                 <Link to="/local/auth"><span className="waves-effect waves-light btn">Sign In</span></Link>
+                                <a className="btn-flat" href="/oauth/facebook"><img src="images/facebooklogin.png" style={imgStyle} /></a>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col s12 m3 l3 offset-l6 offset-m6">
-                        <a className="btn waves-effect waves-light" href="/oauth/facebook">Log In With Facebook</a>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-const FACEBOOK_ID_RMB = process.env.NODE_ENV === 'development' ? '410322939337315' : process.env.FACEBOOK_ID_RMB;
-const FACEBOOK_SECRET_RMB = process.env.NODE_ENV === 'development' ? 'd9e9f98040473a57b72902bbbd97a86f' : process.env.FACEBOOK_SECRET_RMB;
-const FACEBOOK_CALLBACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:1337/oauth/facebook/callback' : 'https://ratemybill.com/oauth/facebook/callback'
+var FACEBOOK_ID_RMB = process.env.NODE_ENV === 'development' ? '410322939337315' : process.env.FACEBOOK_ID_RMB;
+var FACEBOOK_SECRET_RMB = process.env.NODE_ENV === 'development' ? 'd9e9f98040473a57b72902bbbd97a86f' : process.env.FACEBOOK_SECRET_RMB;
+var FACEBOOK_CALLBACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:1337/oauth/facebook/callback' : 'https://ratemybill.com/oauth/facebook/callback'
 
 var facebookConfig = {
 	clientID: FACEBOOK_ID_RMB,
