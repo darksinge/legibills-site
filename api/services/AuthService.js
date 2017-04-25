@@ -39,7 +39,12 @@ module.exports = {
       return next(new Error('authorization token not found.'));
     }
 
-    let decoded = jwt.verify(authToken, sails.config.jwt.jwt_secret);
+    try {
+      let decoded = jwt.verify(authToken, process.env.JWT_SECRET_RMB || 'keyboard cats');
+    } catch (e) {
+      return next(e, null);
+    }
+    
 
     User.findOne({id: decoded.user.id}).exec((err, user) => {
       if (err) return next(err);
