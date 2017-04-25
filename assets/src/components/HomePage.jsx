@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 var tmpImages = {
-    first: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQpZK55hgEWDWGK1B-jgB_omDOJDt9fDIWiSKzFtJg90xxUKVsH',
-    second: 'http://globalgenes.org/wp-content/uploads/2012/03/capitol_hill_washington_DC_lobbying.jpg',
-    third: 'https://i.imgflip.com/1idalc.jpg'
+    first: 'https://static.pexels.com/photos/8840/cold-beer-drops-freeze.jpg',
+    second: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Ru-camden-campus_walk.jpg',
+    third: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Dublin_Castle_Gates_of_Fortitude_and_Justice_05.JPG'
 }
 
 
@@ -29,7 +29,7 @@ class HomePage extends React.Component {
 
       </div>
       <div className="row container">
-      <Link to="/bill">
+      <Link to="/bill/2017/HB0442">
         <div className="col s12 m12 l4">
           <div className="card horizontal hoverable feature-card">
             <div className="card-image">
@@ -37,39 +37,43 @@ class HomePage extends React.Component {
             </div>
             <div className="card-stacked">
               <div className="card-content">
-                <span className="card-title">Feature 1</span>
-                <p className="">This is the first featured bill.</p>
+                <span className="card-title">Alcohol Amendments</span>
+                <p className="">This bill modifies provisions related to the regulation of alcoholic beverages.</p>
               </div>
             </div>
           </div>
         </div>
         </Link>
-        <div className="col s12 m12 l4">
-          <div className="card horizontal hoverable feature-card">
-            <div className="card-image">
-              <img src={tmpImages.second}></img>
-            </div>
-            <div className="card-stacked">
-              <div className="card-content">
-                <span className="card-title">Feature 2</span>
-                <p className="">This is the second featured bill.</p>
+        <Link to="/bill/2017/HB0054">
+          <div className="col s12 m12 l4">
+            <div className="card horizontal hoverable feature-card">
+              <div className="card-image">
+                <img src={tmpImages.second}></img>
+              </div>
+              <div className="card-stacked">
+                <div className="card-content">
+                  <span className="card-title">Campus Free Speech Amendments</span>
+                  <p className="">Bill enacts provisions related to expressive activity at an institution of higher education.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col s12 m12 l4">
-          <div className="card horizontal hoverable feature-card">
-            <div className="card-image">
-              <img src={tmpImages.third}></img>
-            </div>
-            <div className="card-stacked">
-              <div className="card-content">
-                <span className="card-title">Feature 3</span>
-                <p className="">This is the third featured bill.</p>
+        </Link>
+        <Link to="/bill/2017/HB0239">
+          <div className="col s12 m12 l4">
+            <div className="card horizontal hoverable feature-card">
+              <div className="card-image">
+                <img src={tmpImages.third}></img>
+              </div>
+              <div className="card-stacked">
+                <div className="card-content">
+                  <span className="card-title">Juvenile Justice Amendments</span>
+                  <p className="">Bill modifies provisions related to juvenile justice.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
     );

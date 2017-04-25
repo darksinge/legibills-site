@@ -53,6 +53,9 @@ module.exports.routes = {
    'POST /comment': 'CommentController.create',
 
    // billinfo routes
-   '/upvote/:year/:id': 'BillInfoController.upvote'
+   '/billinfo/:year/:id': 'BillInfoController.billInfo', 
+   '/billinfo/vote/:year/:id/:votetype': 'BillInfoController.vote',
+   '/billinfo/decreasevote/:year/:id/:votetype': 'BillInfoController.decreasevote',
+   '/billinfo/reset/:year/:id': 'BillInfoController.reset'
 
 };

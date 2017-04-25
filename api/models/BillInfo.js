@@ -32,9 +32,13 @@ module.exports = {
             via: 'bill'
         },
 
-        upvotes: 'integer',
+        happyVotes: 'integer',
 
-        toJSON: () => {
+        mehVotes: 'integer',
+
+        angryVotes: 'integer',
+
+        toJSON: function(){
             var obj = this.toObject();
             delete obj.createdAt;
             delete obj.updatedAt;

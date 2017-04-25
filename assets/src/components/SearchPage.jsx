@@ -1,11 +1,29 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-class SearchResult extends Component {
+const searchroute = "https://ratemybill.com/engine/search/";
+
+function insertionSort(unsortedList) {  
+    var len = unsortedList.length;
+    for (var i = 1; i < len; i++) {
+        var tmp = unsortedList[i]; //Copy of the current element. 
+        /*Check through the sorted part and compare with the number in tmp. If large, shift the number*/
+        for (var j = i - 1; j >= 0 && (unsortedList[j] > tmp); j--) {
+            //Shift the number
+            unsortedList[j + 1] = unsortedList[j];
+        }
+        //Insert the copied number at the correct position
+        //in sorted part. 
+        unsortedList[j + 1] = tmp;
+    }
+    return unsortedList;
+}
+
+class SearchResult extends React.Component {
     render() {
         return (
             <div>
-                <Link to={'/bill/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
+                <Link to={'/bill/' + this.props.year + '/' + this.props.id}><h5 className="card-title">{this.props.title}</h5></Link>
                 <p><b>description:</b> {this.props.description}</p>
                 <div className="divider"></div>
             </div>
@@ -17,7 +35,7 @@ class SearchPage extends Component {
     constructor() {
         super();
         this.state = {
-            query: "Enter search here",
+            query: "",
             searchResults: [],
             err: ''
         }
@@ -33,13 +51,19 @@ class SearchPage extends Component {
     }
 
     onSearch(event) {
-        return fetch('/api/search?query=' + this.state.query)
+        return fetch(searchroute + this.state.query)
         .then((res) => {
             res.json()
             .then(body => {
-                console.log(body);
+                var tempSearchResults = []
+                Object.keys(body).forEach(function(key) {
+                    tempSearchResults.push(body[key])
+                });
+                tempSearchResults.sort(function(a, b) {
+                    return parseFloat(a.tf_idf) < parseFloat(b.tf_idf);
+                });
                 this.setState({
-                    searchResults: body.results
+                    searchResults: tempSearchResults
                 });
             });
         })
@@ -71,7 +95,7 @@ class SearchPage extends Component {
                 </div>
                 <div className="container">
                     {this.state.searchResults.map((result) =>
-                        <SearchResult title={result.title} description={result.description} key={result.id} id={result.id} rank={result.rank} />
+                        <SearchResult title={result.name} description={result.description} year={result.year} id={result.bill} score={result.tf_idf} />
                     )}
                 </div>
             </div>
