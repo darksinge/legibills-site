@@ -12,3 +12,6 @@ main {
 .feature-card img {
     height: 200px;
 }
+a.force-hover:hover {
+    cursor: pointer !important;
+}
