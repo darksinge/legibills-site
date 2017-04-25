@@ -1,0 +1,4 @@
+# Place ENV variables for legibills in this file
+JWT_SECRET_RMB='4c7f1f6ffef14e8caf67586039be22e5'
+PORT=8080
+NODE_ENV='production'
