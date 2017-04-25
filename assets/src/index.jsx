@@ -37,8 +37,8 @@ var links = pages.map((value) => {
 
 links = <ul>{links}</ul>;
 
-var App = React.createClass({
-    render: function() {
+export class AppRouter extends Component {
+    render() {
         return (
             <Router history={history}>
                 <div className="header">
@@ -69,6 +69,6 @@ var App = React.createClass({
             </Router>
         );
     }
-});
+};
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<AppRouter/>, document.getElementById('app'));

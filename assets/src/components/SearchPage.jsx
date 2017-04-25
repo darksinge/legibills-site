@@ -13,7 +13,7 @@ class SearchResult extends React.Component {
     }
 }
 
-class SearchPage extends React.Component {
+export class SearchPage extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -78,5 +78,3 @@ class SearchPage extends React.Component {
         );
     }
 }
-
-export default SearchPage;

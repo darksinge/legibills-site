@@ -1,11 +1,9 @@
 /**
-* Comment.js
+* BillInfo.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
 */
-
-var uuid = require('uuid');
 
 module.exports = {
     schema: true,
@@ -34,10 +32,13 @@ module.exports = {
             via: 'bill'
         },
 
+        upvotes: 'integer',
+
         toJSON: () => {
             var obj = this.toObject();
             delete obj.createdAt;
             delete obj.updatedAt;
+            return obj;
         }
         
     }

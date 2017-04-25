@@ -20,7 +20,7 @@ module.exports = {
 		},
         
         bill: {
-            model: 'entry'
+            model: 'billinfo'
         },
         
         body: 'string',

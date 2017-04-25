@@ -25,7 +25,7 @@ module.exports = {
                 }
             ]
         },
-        watch: process.env.NODE_ENV === 'development',
+        watch: true,
         cache: cache,
         stats: "errors-only"
 };

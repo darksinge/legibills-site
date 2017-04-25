@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class BillPage extends React.Component {
+export class BillPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -94,5 +94,3 @@ class BillPage extends React.Component {
         )
     }
 }
-
-export default BillPage;
